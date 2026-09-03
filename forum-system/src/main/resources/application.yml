@@ -1,0 +1,25 @@
+# Spring 全局配置
+spring:
+  application:
+    name: 论坛系统 # 项⽬名
+  output:
+    ansi:
+      enabled: ALWAYS # 控制台输出彩⾊⽇志
+
+server:
+  # 自定义服务端口号
+  port: 27271
+
+# 日志配置
+logging:
+  pattern:
+    # 日志显示格式
+    dateformat: yyyy-MM-dd HH:mm:ss
+  level:
+    # root 日志级别设置为 info
+    root: info
+    # 设置 com.me.forum 包下的日志级别为 debug
+    com.me.forum: debug
+  file:
+    # 设置日志文件的存储路径
+    path: C:/JAVA/log/forum_log
