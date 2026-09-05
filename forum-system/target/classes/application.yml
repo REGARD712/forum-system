@@ -5,6 +5,12 @@ spring:
   output:
     ansi:
       enabled: ALWAYS # 控制台输出彩⾊⽇志
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver   # 注意：5.1.x 驱动类名没有 .cj.
+    # 数据库连接串
+    url: jdbc:mysql://127.0.0.1:3308/forum_db?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    password: '1308670712.'
 
 server:
   # 自定义服务端口号
