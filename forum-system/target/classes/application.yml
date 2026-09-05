@@ -29,3 +29,7 @@ logging:
   file:
     # 设置日志文件的存储路径
     path: C:/JAVA/log/forum_log
+
+# mybatis 相关配置，单独配置，顶格写
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml # 指定 xxxMapper.xml的扫描路径
