@@ -8,7 +8,7 @@ use forum_db;
 # 用户表
 drop table if exists t_user;
 create table t_user (
-	  id bigint primary key auto_increment comment '编号，主键自增',
+	id bigint primary key auto_increment comment '编号，主键自增',
     username varchar(20) not null unique comment '用户名，唯一',
     password varchar(32) not null comment '加密后的密码',
     nickname varchar(50) not null comment '昵称',
@@ -29,7 +29,7 @@ create table t_user (
 # 版块表
 drop table if exists t_board;
 create table t_board (
-	 id bigint primary key auto_increment comment '编号，主键自增',
+	id bigint primary key auto_increment comment '编号，主键自增',
     name varchar(50) not null comment '版块名',
     articleCount int not null default 0 comment '帖子数量',
     sort int not null default 0 comment '排序优先级，升序',
