@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <link rel="shortcut icon" href="/favicon.ico">
-  <title>比特论坛 - 用户注册</title>
+  <title>论坛系统 - 用户注册</title>
   <!-- 导入CSS -->
   <link href="./dist/css/tabler.min.css?1674944402" rel="stylesheet" />
   <link rel="stylesheet" href="./dist/css/jquery.toast.css">
@@ -90,7 +90,7 @@
           <div class="mb-3">
             <label class="form-check">
               <input type="checkbox" class="form-check-input" id="policy" />
-              <span class="form-check-label">同意 <a href="#" tabindex="-1">比特论坛使用条款和隐私政策</a>.</span>
+              <span class="form-check-label">同意 <a href="#" tabindex="-1">论坛系统使用条款和隐私政策</a>.</span>
             </label>
           </div>
           <div class="form-footer">
@@ -110,102 +110,134 @@
 <script src="./dist/js/jquery.toast.js"></script>
 <script>
 
-$(function () {
-  // 获取表单并校验
-  $('#submit').click(function () {
-    let checkForm = true;
-    // 校验用户名
-    if (!$('#username').val()) {
-      $('#username').addClass('is-invalid');
-      checkForm = false;
-    }
-    // 校验昵称
-    if (!$('#nickname').val()) {
-      $('#nickname').addClass('is-invalid');
-      checkForm = false;
-    }
-    // 校验密码非空
-    if (!$('#password').val()) {
-      $('#password').addClass('is-invalid');
-      checkForm = false;
-    }
-    // 校验确认密码非空, 校验密码与重复密码是否相同
-    if (!$('#passwordRepeat').val() || $('#password').val() != $('#passwordRepeat').val()) {
-      $('#passwordRepeat').addClass('is-invalid');
-      checkForm = false;
-    }
+  // 当前页面加载成功后执行的方法
+  $(function () {
+    // 获取表单并校验
+    $('#submit').click(function () {
+      let checkForm = true;
+      // 校验用户名
+      if (!$('#username').val()) {
+        $('#username').addClass('is-invalid');
+        checkForm = false;
+      }
+      // 校验昵称
+      if (!$('#nickname').val()) {
+        $('#nickname').addClass('is-invalid');
+        checkForm = false;
+      }
+      // 校验密码非空
+      if (!$('#password').val()) {
+        $('#password').addClass('is-invalid');
+        checkForm = false;
+      }
+      // 校验确认密码非空, 校验密码与重复密码是否相同
+      if (!$('#passwordRepeat').val() || $('#password').val() != $('#passwordRepeat').val()) {
+        $('#passwordRepeat').addClass('is-invalid');
+        checkForm = false;
+      }
 
-    // 检验政策是否勾选
-    if (!$('#policy').prop('checked')) {
-      $('#policy').addClass('is-invalid');
-      checkForm = false;
-    }
-    // 根据判断结果提交表单
-    if (!checkForm) {
-      return false;
-    }
-    
-    // 构造数据
-    
-    // 发送AJAX请求 
-    // contentType = application/x-www-form-urlencoded
-    // 成功后跳转到 sign-in.html
-    $.ajax ({
-      
+      // 检验政策是否勾选
+      if (!$('#policy').prop('checked')) {
+        $('#policy').addClass('is-invalid');
+        checkForm = false;
+      }
+      // 根据判断结果提交表单
+      if (!checkForm) {
+        return false;
+      }
 
+      // 构造数据
+      let postData = {
+        username: $('#username').val(),
+        nickname: $('#nickname').val(),
+        password: $('#password').val(),
+        passwordRepeat: $('#passwordRepeat').val()
+      };
+
+      // 发送AJAX请求 
+      // contentType = application/x-www-form-urlencoded
+      // 成功后跳转到 sign-in.html
+      $.ajax({
+        type: 'post',
+        url: '/user/register',
+        contentType: 'application/x-www-form-urlencoded',
+        data: postData,
+        // 回调函数
+        success: function (response) {
+          // 判断返回的状态码
+          if (response.code == 0) {
+            // 注册成功
+            // 跳转到登录页面
+            location.assign('/sign-in.html');
+          } else {
+            // 注册出现异常
+            $.toast({
+              heading: '警告！',
+              text: response.message,
+              icon: 'warning'
+            })
+          }
+        },
+        error: function () {
+            $.toast({
+              heading: '错误！',
+              text: '访问出现问题，请联系管理员',
+              icon: 'error'
+            })
+          }
+      });
+    });
+
+    // 表单元单独检验
+    $('#username, #nickname, #password').on('blur', function () {
+      if ($(this).val()) {
+        $(this).removeClass('is-invalid');
+        $(this).addClass('is-valid');
+      } else {
+        $(this).removeClass('is-valid');
+        $(this).addClass('is-invalid');
+      }
+    })
+
+    // 检验确认密码
+    $('#passwordRepeat').on('blur', function () {
+      if ($(this).val() && $(this).val() == $('#password').val()) {
+        $(this).removeClass('is-invalid');
+        $(this).addClass('is-valid');
+      } else {
+        $(this).removeClass('is-valid');
+        $(this).addClass('is-invalid');
+      }
+    })
+
+    // 校验政策是否勾选
+    $('#policy').on('change', function () {
+      if ($(this).prop('checked')) {
+        $(this).removeClass('is-invalid');
+        $(this).addClass('is-valid');
+      } else {
+        $(this).removeClass('is-valid');
+        $(this).addClass('is-invalid');
+      }
+    })
+
+
+    // 密码框右侧明文密文切换按钮
+    $('#passwordRepeat_a').click(function () {
+      if ($('#passwordRepeat').attr('type') == 'password') {
+        $('#passwordRepeat').attr('type', 'text');
+      } else {
+        $('#passwordRepeat').attr('type', 'password');
+      }
+    });
+    $('#password_a').click(function () {
+      if ($('#password').attr('type') == 'password') {
+        $('#password').attr('type', 'text');
+      } else {
+        $('#password').attr('type', 'password');
+      }
     });
   });
-
-  // 表单元单独检验
-  $('#username, #nickname, #password').on('blur', function () {
-    if ($(this).val()) {
-      $(this).removeClass('is-invalid');
-      $(this).addClass('is-valid');
-    } else {
-      $(this).removeClass('is-valid');
-      $(this).addClass('is-invalid');
-    }
-  })
-
-  // 检验确认密码
-  $('#passwordRepeat').on('blur', function () {
-    if ($(this).val() && $(this).val() == $('#password').val()) {
-      $(this).removeClass('is-invalid');
-      $(this).addClass('is-valid');
-    } else {
-      $(this).removeClass('is-valid');
-      $(this).addClass('is-invalid');
-    }
-  })
-
-  // 校验政策是否勾选
-  $('#policy').on('change', function () {
-    if ($(this).prop('checked')) {
-      $(this).removeClass('is-invalid');
-      $(this).addClass('is-valid');
-    } else {
-      $(this).removeClass('is-valid');
-      $(this).addClass('is-invalid');
-    }
-  })
-
-
-  // 密码框右侧明文密文切换按钮
-  $('#passwordRepeat_a').click(function () {
-    if($('#passwordRepeat').attr('type') == 'password') {
-      $('#passwordRepeat').attr('type', 'text');
-    } else {
-      $('#passwordRepeat').attr('type', 'password');
-    }
-  });
-  $('#password_a').click(function () {
-    if($('#password').attr('type') == 'password') {
-      $('#password').attr('type', 'text');
-    } else {
-      $('#password').attr('type', 'password');
-    }
-  });
-});
 
 
 </script>
