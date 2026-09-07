@@ -87,11 +87,4 @@ create table t_message (
     updateTime datetime not null comment '更新时间，精确到秒'
 );
 
-INSERT INTO `forum_db`.`t_user` 
-(`id`, `username`, `password`, `nickname`,
-`gender`, `salt`, `avatarUrl`, `articleCount`, `isAdmin`, `state`,
-`deleteState`, `createTime`, `updateTime`) 
-VALUES 
-(1, 'boy', '123456', 'zhangsan', 2, '123', 'avatar.png', 0, 1, 0, 0, '2026-2-13 22:30:10', '2026-2-13
-22:30:13');
 
