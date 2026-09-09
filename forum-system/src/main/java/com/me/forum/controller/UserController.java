@@ -2,6 +2,7 @@ package com.me.forum.controller;
 
 import com.me.forum.common.AppResult;
 import com.me.forum.common.ResultCode;
+import com.me.forum.config.AppConfig;
 import com.me.forum.model.User;
 import com.me.forum.services.IUserService;
 import com.me.forum.utils.MD5Util;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * @ClassName: UserController
@@ -34,12 +37,11 @@ public class UserController {
     private IUserService userService;
 
     /**
-     * @Title register
      * @param username 用户名
      * @param nickname 昵称
      * @param password 密码
      * @param passwordRepeat 确认密码
-     * @Return AppResult
+     * @return AppResult
      * @Description 注册新用户
      */
     @ApiOperation("注册新用户")
@@ -71,6 +73,34 @@ public class UserController {
         // 调用service
         userService.createNormalUser(user);
         // 返回成功响应
+        return AppResult.success();
+    }
+
+    /**
+     * @param request HTTP请求
+     * @param username 用户名
+     * @param password 密码
+     * @return AppResult
+     * @Description: 处理用户登录
+     */
+    @ApiOperation("用户登录")
+    @PostMapping("/login")
+    public AppResult login (HttpServletRequest request,
+                            @ApiParam("用户名") @RequestParam("username") @NonNull String username,
+                            @ApiParam("密码") @RequestParam("password") @NonNull String password) {
+        // 1.调用service登录
+        User user = userService.login(username, password);
+        // 非空校验
+        if (user == null) {
+            // 打印日志
+            log.warn("{}, username: {}. ", ResultCode.FAILED_USER_NOT_EXISTS, username);
+            // 返回结果
+            return AppResult.failed(ResultCode.FAILED_USER_NOT_EXISTS);
+        }
+        // 2.将user设置到session中
+        HttpSession session = request.getSession(true);
+        session.setAttribute(AppConfig.USER_SESSION_KEY, user);
+        // 3.返回结果
         return AppResult.success();
     }
 }
