@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <link rel="shortcut icon" href="/favicon.ico">
     <!-- 标题 -->
-    <title>比特论坛 - 用户登录</title>
+    <title>论坛系统 - 用户登录</title>
     <!-- 导入CSS -->
     <link href="./dist/css/tabler.min.css?1674944402" rel="stylesheet"/>
     <link rel="stylesheet" href="./dist/css/jquery.toast.css">
@@ -113,10 +113,39 @@
         }
 
         // 构造数据
+        let postData = {
+          username: usernameEl.val(),
+          password: passwordEl.val()
+        };
         
         // 发送AJAX请求，成功后跳转到index.html
         $.ajax({
-          
+          type: 'post',
+          url: '/user/login',
+          contentType: 'application/x-www-form-urlencoded',
+          data: postData,
+          success: function (response) {
+            // 判断返回的状态码
+            if (response.code == 0) {
+              // 登录成功
+              // 跳转到index.html
+              location.assign('/index.html');
+            } else {
+              // 登录出现异常
+              $.toast({
+                heading: '警告！',
+                text: response.message,
+                icon: 'warning'
+              })
+            }
+          },
+          error: function () {
+            $.toast({
+              heading: '错误！',
+              text: '访问出现问题，请联系管理员',
+              icon: 'error'
+            })
+          }
         });
       });
 
