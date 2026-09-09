@@ -6,6 +6,7 @@ import com.me.forum.dao.UserMapper;
 import com.me.forum.exception.ApplicationException;
 import com.me.forum.model.User;
 import com.me.forum.services.IUserService;
+import com.me.forum.utils.MD5Util;
 import com.me.forum.utils.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -44,7 +45,7 @@ public class UserServiceImpl implements IUserService {
         // 判断是否已存在
         if (existUser != null) {
             // 打印日志
-            log.info(ResultCode.FAILED_USER_EXISTS.toString());
+            log.warn(ResultCode.FAILED_USER_EXISTS.toString());
             // 抛出异常
             throw new ApplicationException(AppResult.failed(ResultCode.FAILED_USER_EXISTS));
         }
@@ -64,12 +65,57 @@ public class UserServiceImpl implements IUserService {
         // 如果影响行数不为1说明写入失败
         if (row != 1) {
             // 打印日志
-            log.info(ResultCode.FAILED_CREATE.toString());
+            log.warn(ResultCode.FAILED_CREATE.toString());
             // 抛出异常
             throw new ApplicationException(AppResult.failed(ResultCode.FAILED_CREATE));
         }
         // 写入成功
         // 打印日志
-        log.info("新增用户成功, username: " + user.getUsername() + ". ");
+        log.info("新增用户成功, username: {}. ", user.getUsername());
+    }
+
+    @Override
+    public User selectByUserName(String username) {
+        // 非空校验
+        if (StringUtil.isEmpty(username)) {
+            // 打印日志
+            log.warn(ResultCode.FAILED_PARAMS_VALIDATE.toString());
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_PARAMS_VALIDATE));
+        }
+        // 返回查询的用户信息
+        return userMapper.selectByUserName(username);
+    }
+
+    @Override
+    public User login(String username, String password) {
+        // 1.非空校验
+        if (StringUtil.isEmpty(username) || StringUtil.isEmpty(password)) {
+            // 打印日志
+            log.warn(ResultCode.FAILED_PARAMS_VALIDATE.toString());
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_LOGIN));
+        }
+        // 2.根据用户名查询用户信息
+        User selectedUser = selectByUserName(username);
+        // 3.对查询结果进行非空校验
+        if (selectedUser == null) {
+            // 打印日志
+            log.warn("{}, username: {}. ", ResultCode.FAILED_USER_NOT_EXISTS, username);
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_USER_NOT_EXISTS));
+        }
+        // 4.校验密码是否正确
+        String encryptedPassword = MD5Util.md5Salt(password, selectedUser.getSalt());
+        if (!encryptedPassword.equalsIgnoreCase(selectedUser.getPassword())) {
+            // 打印日志
+            log.warn("{}, username: {}, password: {}", ResultCode.FAILED_LOGIN, username, password);
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_LOGIN));
+        }
+        // 5.登陆成功
+        log.info("登陆成功, username: {}", username);
+        // 返回用户信息
+        return selectedUser;
     }
 }
