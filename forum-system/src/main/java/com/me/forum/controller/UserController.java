@@ -137,6 +137,11 @@ public class UserController {
         return AppResult.success(user);
     }
 
+    /**
+     * @param request HTTP请求
+     * @return AppResult
+     * @description: 退出登陆接口
+     */
     @ApiOperation("退出登陆")
     @GetMapping("/logout")
     public AppResult logout (HttpServletRequest request) {
