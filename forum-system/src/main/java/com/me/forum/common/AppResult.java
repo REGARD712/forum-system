@@ -1,5 +1,7 @@
 package com.me.forum.common;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 /**
  * @ClassName: AppResult
  * @Author: JacksonLee
@@ -8,12 +10,15 @@ package com.me.forum.common;
  */
 public class AppResult<T> {
     // 状态码
+    @JsonInclude(JsonInclude.Include.ALWAYS) // 无论发生什么条件都参与序列化
     private int code;
 
     // 状态描述
+    @JsonInclude(JsonInclude.Include.ALWAYS) // 无论发生什么条件都参与序列化
     private String message;
 
     // 返回的数据
+    @JsonInclude(JsonInclude.Include.ALWAYS) // 无论发生什么条件都参与序列化
     private T data;
 
     /**
