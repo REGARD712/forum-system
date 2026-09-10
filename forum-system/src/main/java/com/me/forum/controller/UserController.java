@@ -140,9 +140,9 @@ public class UserController {
     /**
      * @param request HTTP请求
      * @return AppResult
-     * @description: 退出登陆接口
+     * @description: 退出登录接口
      */
-    @ApiOperation("退出登陆")
+    @ApiOperation("退出登录")
     @GetMapping("/logout")
     public AppResult logout (HttpServletRequest request) {
         // 从请求中获取Session
