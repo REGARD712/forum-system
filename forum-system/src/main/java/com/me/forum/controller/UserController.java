@@ -115,7 +115,7 @@ public class UserController {
 
         if (id == null) {
             // 若id为空，从请求session中获取当前登录的用户信息
-            HttpSession session = request.getSession();
+            HttpSession session = request.getSession(false);
             // 非空校验
             if (session == null || session.getAttribute(AppConfig.USER_SESSION_KEY) == null) {
                 // 当前用户未登录，返回错误信息
