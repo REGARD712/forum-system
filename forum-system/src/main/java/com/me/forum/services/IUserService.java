@@ -10,7 +10,7 @@ import com.me.forum.model.User;
  */
 public interface IUserService {
     /**
-     * @param user
+     * @param user 用户信息
      * @Return: void
      * @Description: 创建一个普通用户
      */
@@ -30,4 +30,11 @@ public interface IUserService {
      * @Description: 处理用户登录
      */
     User login (String username, String password);
+
+    /**
+     * @param id 用户id
+     * @return User 用户信息
+     * @description: 根据用户id查询用户信息
+     */
+    User selectById (Long id);
 }

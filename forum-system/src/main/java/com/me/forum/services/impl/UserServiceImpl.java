@@ -118,4 +118,17 @@ public class UserServiceImpl implements IUserService {
         // 返回用户信息
         return selectedUser;
     }
+
+    @Override
+    public User selectById(Long id) {
+        // 非空校验
+        if (id == null) {
+            // 打印日志
+            log.warn(ResultCode.FAILED_PARAMS_VALIDATE.toString());
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_PARAMS_VALIDATE));
+        }
+        // 返回查询的用户信息
+        return userMapper.selectByPrimaryKey(id);
+    }
 }

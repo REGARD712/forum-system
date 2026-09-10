@@ -12,10 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -102,5 +99,41 @@ public class UserController {
         session.setAttribute(AppConfig.USER_SESSION_KEY, user);
         // 3.返回结果
         return AppResult.success();
+    }
+
+    /**
+     * @param request HTTP请求(当前端不传入id,从请求中的Session中获取当前登录的用户信息)
+     * @param id 用户id(非必传)
+     * @return AppResult<User> 用户信息
+     * @description: 获取用户信息接口
+     */
+    @ApiOperation("获取用户信息")
+    @GetMapping("/info")
+    public AppResult<User> getUserInfo (HttpServletRequest request,
+                                        @ApiParam("用户Id") @RequestParam(value = "id", required = false) Long id) {
+        User user = null;
+
+        if (id == null) {
+            // 若id为空，从请求session中获取当前登录的用户信息
+            HttpSession session = request.getSession();
+            // 非空校验
+            if (session == null || session.getAttribute(AppConfig.USER_SESSION_KEY) == null) {
+                // 当前用户未登录，返回错误信息
+                return AppResult.failed(ResultCode.FAILED_FORBIDDEN);
+            }
+            user = (User) session.getAttribute(AppConfig.USER_SESSION_KEY);
+        } else {
+            // 若id不为空，根据id从数据库中查询对应的用户信息
+            user = userService.selectById(id);
+        }
+
+        // 判断user对象是否为空
+        if (user == null) {
+            // 为空表示该用户不存在
+            return AppResult.failed(ResultCode.FAILED_USER_NOT_EXISTS);
+        }
+
+        // 返回用户信息
+        return AppResult.success(user);
     }
 }
