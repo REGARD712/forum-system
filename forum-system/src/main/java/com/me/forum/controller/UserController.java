@@ -136,4 +136,19 @@ public class UserController {
         // 返回用户信息
         return AppResult.success(user);
     }
+
+    @ApiOperation("退出登陆")
+    @GetMapping("/logout")
+    public AppResult logout (HttpServletRequest request) {
+        // 从请求中获取Session
+        HttpSession session = request.getSession(false);
+        // 非空校验
+        if (session != null) {
+            // 处在登录状态，删除session
+            log.info("成功退出登录");
+            session.invalidate();
+        }
+
+        return AppResult.success("成功退出登录");
+    }
 }

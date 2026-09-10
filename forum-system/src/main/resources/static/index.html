@@ -427,7 +427,12 @@
     // 成功后，跳转到sign-in.html
     $('#index_user_logout').click(function () {
       $.ajax({
-        
+        type: 'get',
+        url: '/user/logout',
+        complete: function () {
+          // 无论成功还是失败都执行
+          location.assign('/sign-in.html');
+        }
       });
     });
 
