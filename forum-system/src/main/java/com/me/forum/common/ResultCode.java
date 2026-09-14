@@ -19,18 +19,20 @@ public enum ResultCode {
     FAILED_NOT_EXISTS                             (1005, "资源不存在"),
 
     // 用户相关操作
-    SUCCESS_LOGIN                                 (1100, "登陆成功"),
-    SUCCESS_NEW_USER_INSERT                       (1101, "新增用户成功"),
-    FAILED_USER_EXISTS                            (1102, "用户已存在"),
-    FAILED_USER_NOT_EXISTS                        (1103, "用户不存在"),
-    FAILED_LOGIN                                  (1104, "用户名或密码错误"),
-    FAILED_USER_BANNED                            (1105, "您已被禁言，请联系管理员，并重新登录"),
-    FAILED_TWO_PWD_NOT_SAME                       (1106, "两次输入的密码不一致"),
-    FAILED_USER_ARTICLE_COUNT_UPDATE              (1107, "更新用户帖子数量失败"),
+    SUCCESS_LOGIN                                 (1100, "登录成功"),
+    SUCCESS_NEW_USER_INSERT                       (1101, "注册成功"),
+    SUCCESS_LOG_OUT                               (1102, "退出登录成功"),
+    FAILED_USER_EXISTS                            (1103, "用户已存在"),
+    FAILED_USER_NOT_EXISTS                        (1104, "用户不存在"),
+    FAILED_LOGIN                                  (1105, "用户名或密码错误"),
+    FAILED_USER_BANNED                            (1106, "您已被禁言，请联系管理员，并重新登录"),
+    FAILED_TWO_PWD_NOT_SAME                       (1107, "两次输入的密码不一致"),
+    FAILED_USER_ARTICLE_COUNT_UPDATE              (1108, "更新用户帖子数量失败"),
 
     // 板块相关操作
     FAILED_BOARD_NOT_EXISTS                       (1200, "板块不存在"),
-    FAILED_BOARD_ARTICLE_COUNT_UPDATE             (1201, "更新板块帖子数量失败"),
+    FAILED_BOARD_BANNED                           (1201, "版块禁用"),
+    FAILED_BOARD_ARTICLE_COUNT_UPDATE             (1202, "更新板块帖子数量失败"),
 
     // 帖子相关操作
     SUCCESS_NEW_ARTICLE_INSERT                    (1300, "发布新帖成功"),

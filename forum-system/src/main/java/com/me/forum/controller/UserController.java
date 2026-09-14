@@ -70,7 +70,7 @@ public class UserController {
         // 调用service
         userService.createNormalUser(user);
         // 返回成功响应
-        return AppResult.success();
+        return AppResult.success(ResultCode.SUCCESS_NEW_USER_INSERT);
     }
 
     /**
@@ -98,7 +98,7 @@ public class UserController {
         HttpSession session = request.getSession(true);
         session.setAttribute(AppConfig.USER_SESSION_KEY, user);
         // 3.返回结果
-        return AppResult.success();
+        return AppResult.success(ResultCode.SUCCESS_LOGIN);
     }
 
     /**
@@ -149,6 +149,6 @@ public class UserController {
             session.invalidate();
         }
 
-        return AppResult.success("成功退出登录");
+        return AppResult.success(ResultCode.SUCCESS_LOG_OUT);
     }
 }
