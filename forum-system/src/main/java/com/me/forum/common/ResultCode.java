@@ -29,7 +29,13 @@ public enum ResultCode {
     FAILED_USER_ARTICLE_COUNT_UPDATE              (1107, "更新用户帖子数量失败"),
 
     // 板块相关操作
-    FAILED_BOARD_ARTICLE_COUNT_UPDATE             (1200, "更新板块帖子数量失败"),
+    FAILED_BOARD_NOT_EXISTS                       (1200, "板块不存在"),
+    FAILED_BOARD_ARTICLE_COUNT_UPDATE             (1201, "更新板块帖子数量失败"),
+
+    // 帖子相关操作
+    SUCCESS_NEW_ARTICLE_INSERT                    (1300, "发布新帖成功"),
+    FAILED_NEW_ARTICLE_INSERT                     (1301, "发布新帖失败"),
+    FAILED_NEW_ARTICLE_TITLE_OR_CONTENT_IS_NULL   (1302, "新帖标题或内容为空"),
 
     // 错误
     ERROR_SERVICES                                (2000, "服务器内部错误"),

@@ -71,7 +71,7 @@ public class UserServiceImpl implements IUserService {
         }
         // 写入成功
         // 打印日志
-        log.info("新增用户成功, username: {}. ", user.getUsername());
+        log.info("{} username: {}. ",ResultCode.SUCCESS_NEW_USER_INSERT, user.getUsername());
     }
 
     @Override
@@ -101,7 +101,7 @@ public class UserServiceImpl implements IUserService {
         // 3.对查询结果进行非空校验
         if (selectedUser == null) {
             // 打印日志
-            log.warn("{}, username: {}. ", ResultCode.FAILED_USER_NOT_EXISTS, username);
+            log.warn("{} username: {}. ", ResultCode.FAILED_USER_NOT_EXISTS, username);
             // 抛出异常
             throw new ApplicationException(AppResult.failed(ResultCode.FAILED_USER_NOT_EXISTS));
         }
@@ -109,12 +109,12 @@ public class UserServiceImpl implements IUserService {
         String encryptedPassword = MD5Util.md5Salt(password, selectedUser.getSalt());
         if (!encryptedPassword.equalsIgnoreCase(selectedUser.getPassword())) {
             // 打印日志
-            log.warn("{}, username: {}, password: {}", ResultCode.FAILED_LOGIN, username, password);
+            log.warn("{} username: {}, password: {}", ResultCode.FAILED_LOGIN, username, password);
             // 抛出异常
             throw new ApplicationException(AppResult.failed(ResultCode.FAILED_LOGIN));
         }
         // 5.登陆成功
-        log.info("登陆成功, username: {}", username);
+        log.info("{} username: {}, password: {}", ResultCode.SUCCESS_LOGIN, username, password);
         // 返回用户信息
         return selectedUser;
     }
@@ -130,5 +130,38 @@ public class UserServiceImpl implements IUserService {
         }
         // 返回查询的用户信息
         return userMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public void addOneArticleCountById(Long id) {
+        // 非空校验
+        if (id == null || id <= 0) {
+            // 打印日志
+            log.warn("{} id: {}", ResultCode.FAILED_USER_ARTICLE_COUNT_UPDATE, id);
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_USER_ARTICLE_COUNT_UPDATE));
+        }
+
+        // 查询对应用户信息
+        User user = userMapper.selectByPrimaryKey(id);
+        // 非空校验
+        if (user == null) {
+            // 打印日志
+            log.warn("{} userId: {}", ResultCode.FAILED_USER_NOT_EXISTS, id);
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_USER_NOT_EXISTS));
+        }
+
+        // 更新帖子数量
+        User updateUser = new User();
+        updateUser.setId(id);
+        updateUser.setArticleCount(user.getArticleCount() + 1);
+        int row = userMapper.updateByPrimaryKeySelective(updateUser);
+        if (row != 1) {
+            // 打印日志
+            log.warn("{} row: {}", ResultCode.FAILED_USER_ARTICLE_COUNT_UPDATE, row);
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_USER_ARTICLE_COUNT_UPDATE));
+        }
     }
 }
