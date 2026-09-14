@@ -4,7 +4,7 @@
     <div class="row g-2 align-items-center">
       <div class="col">
         <h2 class="page-title">
-          发新贴
+          发布新贴
         </h2>
       </div>
     </div>
@@ -19,7 +19,7 @@
           <label class="form-label"><strong>版块</strong></label>
           <select id="article_post_borad" type="text" class="form-select" placeholder="Select a date" id="select-tags"
             value="">
-            <option value="1">JAVA</option>
+            <option value="1" selected>JAVA</option>
             <option value="2">C++</option>
             <option value="3">前端技术</option>
             <option value="4">MySQL</option>
@@ -113,12 +113,44 @@
       }
 
       // 构造帖子对象
-      
+      let request = {
+        boardId: boardIdEl.val(),
+        title: titleEl.val(),
+        content: contentEl.val()
+      };
 
       // 提交, 成功后调用changeNavActive($('#nav_board_index'));回到首页并加载帖子列表
       // contentType: 'application/x-www-form-urlencoded'
       $.ajax({
-        
+        type: 'post',
+        url: '/article/create',
+        contentType: 'application/x-www-form-urlencoded',
+        data: request,
+        success: function (response) {
+          if (response.code == 1300) {
+            // 显示信息
+            $.toast({
+              heading: '成功',
+              text: response.message,
+              icon: 'success'
+            })
+            // 跳转到首页
+            changeNavActive($('#nav_board_index'));
+          } else {
+            $.toast({
+              heading: '警告！',
+              text: response.message,
+              icon: 'warning'
+            })
+          }
+        },
+        error: function () {
+          $.toast({
+            heading: '错误！',
+            text: '访问出现问题，请联系管理员',
+            icon: 'error'
+          })
+        }
       });
     });
   });

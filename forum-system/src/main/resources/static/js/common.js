@@ -12,7 +12,6 @@ function changeNavActive (boardItem) {
       let activeLiEl = $('#topBoardList>.active');
       activeLiEl.removeClass('active');
       boardItem.addClass('active');
-      console.log('修改');
       // 请求版块中的帖子
       buildArticleList();
     }

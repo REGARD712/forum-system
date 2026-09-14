@@ -206,7 +206,7 @@
           // 通过全局变量保存当前访问的帖子信息
           currentArticle = article;
           removeNavActive();
-          $('#forum-content').load('details.html');
+          $('#bit-forum-content').load('details.html');
         });
         // 添加到列表
         $('#artical-items-body').append(articleItem);
@@ -217,7 +217,7 @@
     $('.article_post').click(function () {
       console.log('加载发贴页面');
       removeNavActive();
-      $('#forum-content').load('article.html');
+      $('#bit-forum-content').load('article.html');
     });
 
   });
