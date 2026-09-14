@@ -352,7 +352,27 @@
     // ========================= 获取版块信息 =======================
     // 成功后，调用buildTopBoard()方法，构建版块列表
     $.ajax({
-      
+      type: 'get',
+      url: '/board/topList',
+      success: function (response) {
+        if (response.code == 0) {
+          // 构建板块列表
+          buildTopBoard(response.data);
+        } else {
+          $.toast({
+            heading: '警告！',
+            text: response.message,
+            icon: 'warning'
+          })
+        }
+      },
+      error: function () {
+        $.toast({
+          heading: '错误！',
+          text: '访问出现问题，请联系管理员',
+          icon: 'error'
+        })
+      }
     });
 
     //========================= 构造首页版块=======================
