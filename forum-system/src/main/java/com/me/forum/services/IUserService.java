@@ -6,7 +6,7 @@ import com.me.forum.model.User;
  * @InterfaceName：IUserService
  * @Author: JacksonLee
  * @Date: 2026/9/7
- * @Description: 用户相关接口
+ * @Description: 用户相关业务逻辑的接口
  */
 public interface IUserService {
     /**
