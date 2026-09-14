@@ -20,7 +20,7 @@ public enum ResultCode {
 
     // 用户相关操作
     SUCCESS_LOGIN                                 (1100, "登陆成功"),
-    SUCCSES_NEW_USER_INSERT                       (1101, "新增用户成功"),
+    SUCCESS_NEW_USER_INSERT                       (1101, "新增用户成功"),
     FAILED_USER_EXISTS                            (1102, "用户已存在"),
     FAILED_USER_NOT_EXISTS                        (1103, "用户不存在"),
     FAILED_LOGIN                                  (1104, "用户名或密码错误"),
