@@ -3,6 +3,8 @@ package com.me.forum.services;
 import com.me.forum.model.Article;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @InterfaceName：IArticleService
  * @Author: JacksonLee
@@ -17,4 +19,11 @@ public interface IArticleService {
      */
     @Transactional // 被事务管理，要么全部成功要么全部失败(1条insert,2条update)
     void create (Article article);
+
+    /**
+     * @param
+     * @return List<Article>
+     * @description: 查询帖子列表
+     */
+    List<Article> selectAll ();
 }

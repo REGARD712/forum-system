@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @ClassName: ArticleServiceImpl
@@ -98,5 +99,11 @@ public class ArticleServiceImpl implements IArticleService {
         // 发布新贴成功
         log.info("{} articleId: {}, userId: {}, boardId: {}", ResultCode.SUCCESS_NEW_ARTICLE_INSERT,
                 article.getId(), user.getId(), board.getId());
+    }
+
+    @Override
+    public List<Article> selectAll() {
+        // 调用DAO返回结果
+        return articleMapper.selectAll();
     }
 }

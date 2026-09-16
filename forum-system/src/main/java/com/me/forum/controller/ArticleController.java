@@ -13,14 +13,13 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @ClassName: ArticleController
@@ -83,5 +82,23 @@ public class ArticleController {
         articleService.create(article);
         // 返回结果
         return AppResult.success(ResultCode.SUCCESS_NEW_ARTICLE_INSERT);
+    }
+
+    /**
+     * @param boardId 版块Id(若为空则是首页,查询所有帖子)
+     * @return AppResult<List<Article>>
+     * @description: 获取帖子列表
+     */
+    @ApiOperation("获取帖子列表")
+    @GetMapping("/getAllByBoardId")
+    public AppResult<List<Article>> getAllByBoardId (@ApiParam("版块Id") @RequestParam(value = "board", required = false) Long boardId) {
+        // 调用Service查询所有帖子
+        List<Article> articles = articleService.selectAll();
+        // 非空校验
+        if (articles == null) {
+            articles = new ArrayList<>();
+        }
+        // 返回结果
+        return AppResult.success(articles);
     }
 }

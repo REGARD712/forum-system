@@ -29,4 +29,7 @@ public class Article {
     private Date updateTime;
 
     private String content;
+
+    // 关联User对象
+    private User user;
 }
