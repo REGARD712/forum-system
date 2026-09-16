@@ -17,7 +17,7 @@
       <div class="col-auto ms-auto d-print-none">
         <div class="btn-list">
           <!-- 发新帖按钮 宽屏 -->
-          <a  href="javascript:void(0);" class="btn btn-primary d-none d-sm-inline-block article_post">
+          <a href="javascript:void(0);" class="btn btn-primary d-none d-sm-inline-block article_post">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
               stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -80,26 +80,44 @@
 
     // ========================= 获取版块信息 =======================
     // 
-    function getBoardInfo (boardId) {
+    function getBoardInfo(boardId) {
       if (!boardId) {
         return;
       }
       // 发送请求， 成功后，显示版块相关信息
       $.ajax({
-        
+
       });
     }
 
     // ========================= 获取帖子列表 =======================
     // 成功后，调用listBuildArticleList()方法，构建帖子列表
     $.ajax({
-      
-
+      type: 'get',
+      url: '/article/getAllByBoardId',
+      success: function (response) {
+        if (response.code == 0) {
+          listBuildArticleList(response.data);
+        } else {
+          $.toast({
+            heading: '警告！',
+            text: response.message,
+            icon: 'warning'
+          });
+        }
+      },
+      error: function () {
+        $.toast({
+          heading: '错误！',
+          text: '访问出现问题，请联系管理员',
+          icon: 'error'
+        });
+      }
     });
 
     // ========================= 构造帖子列表 =======================
     function listBuildArticleList(data) {
-      if(data.length == 0) {
+      if (data.length == 0) {
         $('#artical-items-body').html('还没有帖子');
         return;
       }
@@ -202,7 +220,7 @@
         // 获取标题的 a 标签
         let articleTitle = articleItem.find('.article_list_a_title');
         // 处理标题点击事件
-        articleTitle.click(function() {
+        articleTitle.click(function () {
           // 通过全局变量保存当前访问的帖子信息
           currentArticle = article;
           removeNavActive();
