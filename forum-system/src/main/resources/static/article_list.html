@@ -86,7 +86,28 @@
       }
       // 发送请求， 成功后，显示版块相关信息
       $.ajax({
-
+        type: 'get',
+        url: '/board/selectById?id=' + boardId,
+        success: function (response) {
+          if (response.code == 0) {
+            let board = response.data;
+            $('#article_list_board_title').html(board.name); // 版块名
+            $('#article_list_count_board').html('帖子数量：' + board.articleCount); // 帖子数量
+          } else {
+            $.toast({
+              heading: '警告！',
+              text: response.message,
+              icon: 'warning'
+            });
+          }
+        },
+        error: function () {
+          $.toast({
+            heading: '错误！',
+            text: '访问出现问题，请联系管理员',
+            icon: 'error'
+          });
+        }
       });
     }
 
