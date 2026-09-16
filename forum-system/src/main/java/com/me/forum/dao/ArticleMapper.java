@@ -2,6 +2,7 @@ package com.me.forum.dao;
 
 import com.me.forum.model.Article;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface ArticleMapper {
     int updateByPrimaryKey(Article row);
 
     List<Article> selectAll ();
+
+    List<Article> selectAllByBoardId (@Param("boardId") Long boardId);
 }

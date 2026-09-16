@@ -89,7 +89,7 @@ public class ArticleServiceImpl implements IArticleService {
         Board board = boardService.selectByPrimaryKey(article.getBoardId());
         if (board == null) {
             // 打印日志
-            log.warn("{} boardId: {}", ResultCode.FAILED_NEW_ARTICLE_INSERT, article.getBoardId());
+            log.warn(ResultCode.FAILED_NEW_ARTICLE_INSERT.toString());
             // 抛出异常
             throw new ApplicationException(AppResult.failed(ResultCode.FAILED_NEW_ARTICLE_INSERT));
         }
@@ -105,5 +105,28 @@ public class ArticleServiceImpl implements IArticleService {
     public List<Article> selectAll() {
         // 调用DAO返回结果
         return articleMapper.selectAll();
+    }
+
+    @Override
+    public List<Article> selectAllByBoardId(Long boardId) {
+        // 非空校验
+        if (boardId == null || boardId <= 0) {
+            // 打印日志
+            log.warn(ResultCode.FAILED_PARAMS_VALIDATE.toString());
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_PARAMS_VALIDATE));
+        }
+
+        // 校验版块是否存在
+        Board board = boardService.selectByPrimaryKey(boardId);
+        if (board == null) {
+            // 打印日志
+            log.warn("{} boardId: {}", ResultCode.FAILED_BOARD_NOT_EXISTS, boardId);
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_BOARD_NOT_EXISTS));
+        }
+
+        //查询指定帖子列表并返回
+        return articleMapper.selectAllByBoardId(boardId);
     }
 }

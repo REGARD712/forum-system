@@ -92,12 +92,22 @@ public class ArticleController {
     @ApiOperation("获取帖子列表")
     @GetMapping("/getAllByBoardId")
     public AppResult<List<Article>> getAllByBoardId (@ApiParam("版块Id") @RequestParam(value = "board", required = false) Long boardId) {
-        // 调用Service查询所有帖子
-        List<Article> articles = articleService.selectAll();
+        // 定义返回的结果为null
+        List<Article> articles = null;
+
+        // 判断boardId是否为空
+        if (boardId != null) {
+            // 查询指定板块下的帖子
+            articles = articleService.selectAllByBoardId(boardId);
+        } else {
+            // 查询所有帖子
+            articles = articleService.selectAll();
+        }
         // 非空校验
         if (articles == null) {
             articles = new ArrayList<>();
         }
+
         // 返回结果
         return AppResult.success(articles);
     }

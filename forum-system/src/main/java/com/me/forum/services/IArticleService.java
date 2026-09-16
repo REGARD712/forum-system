@@ -26,4 +26,11 @@ public interface IArticleService {
      * @description: 查询帖子列表
      */
     List<Article> selectAll ();
+
+    /**
+     * @param boardId 版块Id
+     * @return List<Article>
+     * @description: 查询指定板块的帖子列表
+     */
+    List<Article> selectAllByBoardId (Long boardId);
 }

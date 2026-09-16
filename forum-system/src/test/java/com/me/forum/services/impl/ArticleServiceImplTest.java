@@ -34,4 +34,10 @@ class ArticleServiceImplTest {
         List<Article> articles = articleService.selectAll();
         System.out.println(objectMapper.writeValueAsString(articles));
     }
+
+    @Test
+    void selectAllByBoardId() throws JsonProcessingException {
+        List<Article> articles = articleService.selectAllByBoardId(3l);
+        System.out.println(objectMapper.writeValueAsString(articles));
+    }
 }

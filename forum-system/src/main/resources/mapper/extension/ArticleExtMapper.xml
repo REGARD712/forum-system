@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.me.forum.dao.ArticleMapper">
-    <!--  自定义的结果集映射, BaseResultMap的扩展  -->
+    <!--  自定义的结果集映射, ResultMapWithBLOBs的扩展  -->
     <resultMap extends="ResultMapWithBLOBs" id="AllInfoResultMap" type="com.me.forum.model.Article">
         <!--    与帖子关联的用户的映射    -->
         <association property="user" resultMap="com.me.forum.dao.UserMapper.BaseResultMap" columnPrefix="u_"/>
@@ -13,6 +13,7 @@
                u.nickname  as u_nickname,
                a.id,
                a.title,
+               a.boardId,
                a.visitCount,
                a.likeCount,
                a.replyCount,
@@ -23,6 +24,27 @@
              t_article a
         where u.id = a.userId
           and a.deleteState = 0
+        order by a.createTime desc;
+    </select>
+    <!-- 查询指定版块的帖子列表 -->
+    <select id="selectAllByBoardId" resultMap="AllInfoResultMap" parameterType="java.lang.Long">
+        select u.id        as u_id,
+               u.avatarUrl as u_avatarUrl,
+               u.nickname  as u_nickname,
+               a.id,
+               a.title,
+               a.boardId,
+               a.visitCount,
+               a.likeCount,
+               a.replyCount,
+               a.state,
+               a.createTime,
+               a.updateTime
+        from t_user u,
+             t_article a
+        where u.id = a.userId
+          and a.deleteState = 0
+          and a.boardId = #{boardId,jdbcType=BIGINT}
         order by a.createTime desc;
     </select>
 </mapper>
