@@ -85,13 +85,13 @@ public class ArticleController {
     }
 
     /**
-     * @param boardId 版块Id(若为空则是首页,查询所有帖子)
+     * @param boardId 版块Id(若为空则是首页,查询所有帖子,否则根据版块Id查询帖子)
      * @return AppResult<List<Article>>
      * @description: 获取帖子列表
      */
     @ApiOperation("获取帖子列表")
     @GetMapping("/getAllByBoardId")
-    public AppResult<List<Article>> getAllByBoardId (@ApiParam("版块Id") @RequestParam(value = "board", required = false) Long boardId) {
+    public AppResult<List<Article>> getAllByBoardId (@ApiParam("版块Id") @RequestParam(value = "boardId", required = false) Long boardId) {
         // 定义返回的结果为null
         List<Article> articles = null;
 
