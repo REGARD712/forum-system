@@ -94,7 +94,7 @@
     // 成功后，调用listBuildArticleList()方法，构建帖子列表
     $.ajax({
       type: 'get',
-      url: '/article/getAllByBoardId',
+      url: 'article/getAllByBoardId' + queryString,
       success: function (response) {
         if (response.code == 0) {
           listBuildArticleList(response.data);
