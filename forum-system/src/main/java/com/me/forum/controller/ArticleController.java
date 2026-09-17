@@ -119,13 +119,24 @@ public class ArticleController {
      */
     @ApiOperation("查询帖子详情")
     @GetMapping("/details")
-    public AppResult<Article> getDetails (@ApiParam("帖子Id") @RequestParam("id") @NonNull Long id) {
+    public AppResult<Article> getDetails (HttpServletRequest request,
+                                          @ApiParam("帖子Id") @RequestParam("id") @NonNull Long id) {
+        // 从Session中获取用户信息
+        HttpSession session = request.getSession(false);
+        User user = (User) session.getAttribute(AppConfig.USER_SESSION_KEY);
+
         // 调用Service获取帖子详情
         Article article = articleService.selectDetailById(id);
 
         // 非空校验
         if (article == null) {
             return AppResult.failed(ResultCode.FAILED_ARTICLE_NOT_EXISTS);
+        }
+
+        // 判断当前用户是否为作者
+        if (user.getId().equals(article.getUserId())) {
+            // 是作者
+            article.setOwn(true);
         }
 
         // 返回结果

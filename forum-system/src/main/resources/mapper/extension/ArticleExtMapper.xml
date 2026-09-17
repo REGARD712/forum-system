@@ -63,6 +63,8 @@
                b.state       as b_state,
                b.deleteState as b_deleteState,
                a.id,
+               a.userId,
+               a.boardId,
                a.title,
                a.content,
                a.visitCount,
