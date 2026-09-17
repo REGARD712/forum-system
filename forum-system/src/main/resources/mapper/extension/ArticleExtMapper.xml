@@ -5,6 +5,8 @@
     <resultMap extends="ResultMapWithBLOBs" id="AllInfoResultMap" type="com.me.forum.model.Article">
         <!--    与帖子关联的用户的映射    -->
         <association property="user" resultMap="com.me.forum.dao.UserMapper.BaseResultMap" columnPrefix="u_"/>
+        <!--    与帖子关联的板块的映射    -->
+        <association property="board" resultMap="com.me.forum.dao.BoardMapper.BaseResultMap" columnPrefix="b_"/>
     </resultMap>
     <!-- 查询帖子列表 -->
     <select id="selectAll" resultMap="AllInfoResultMap">
@@ -46,5 +48,36 @@
           and a.deleteState = 0
           and a.boardId = #{boardId,jdbcType=BIGINT}
         order by a.createTime desc;
+    </select>
+    <!--  根据id查询帖子详情  -->
+    <select id="selectDetailById" resultMap="AllInfoResultMap" parameterType="java.lang.Long">
+        select u.id          as u_id,
+               u.avatarUrl   as u_avatarUrl,
+               u.nickname    as u_nickname,
+               u.gender      as u_gender,
+               u.isAdmin     as u_isAdmin,
+               u.state       as u_state,
+               u.deleteState as u_deleteState,
+               b.id          as b_id,
+               b.name        as b_name,
+               b.state       as b_state,
+               b.deleteState as b_deleteState,
+               a.id,
+               a.title,
+               a.content,
+               a.visitCount,
+               a.likeCount,
+               a.replyCount,
+               a.state,
+               a.deleteState,
+               a.createTime,
+               a.updateTime
+        from t_user u,
+             t_article a,
+             t_board b
+        where a.id = #{id,jdbcType=BIGINT}
+          and a.userId = u.id
+          and a.boardId = b.id
+          and a.deleteState = 0;
     </select>
 </mapper>

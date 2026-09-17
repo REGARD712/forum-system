@@ -32,4 +32,7 @@ public class Article {
 
     // 关联User对象
     private User user;
+
+    // 关联Board对象
+    private Board board;
 }

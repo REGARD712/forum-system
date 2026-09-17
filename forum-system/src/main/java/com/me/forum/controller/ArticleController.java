@@ -111,4 +111,24 @@ public class ArticleController {
         // 返回结果
         return AppResult.success(articles);
     }
+
+    /**
+     * @param id 帖子Id
+     * @return AppResult<Article>
+     * @Description: 根据Id查询帖子详情
+     */
+    @ApiOperation("查询帖子详情")
+    @GetMapping("/details")
+    public AppResult<Article> getDetails (@ApiParam("帖子Id") @RequestParam("id") @NonNull Long id) {
+        // 调用Service获取帖子详情
+        Article article = articleService.selectDetailById(id);
+
+        // 非空校验
+        if (article == null) {
+            return AppResult.failed(ResultCode.FAILED_ARTICLE_NOT_EXISTS);
+        }
+
+        // 返回结果
+        return AppResult.success(article);
+    }
 }
