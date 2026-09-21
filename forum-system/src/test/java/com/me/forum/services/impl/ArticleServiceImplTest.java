@@ -48,6 +48,7 @@ class ArticleServiceImplTest {
     }
 
     @Test
+    @Transactional
     void modify() {
         articleService.modify(3L,  "这是一个标题", "这是一个内容");
         System.out.println("更新成功");
@@ -60,12 +61,14 @@ class ArticleServiceImplTest {
     }
 
     @Test
+    @Transactional
     void thumbsUpById() {
         articleService.thumbsUpById(1L);
         System.out.println("点赞成功");
     }
 
     @Test
+    @Transactional
     void deleteById() {
         articleService.deleteById(2L);
         System.out.println("删除帖子成功");

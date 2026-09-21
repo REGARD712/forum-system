@@ -30,6 +30,7 @@ class BoardServiceImplTest {
     }
 
     @Test
+    @Transactional
     void selectByPrimaryKey() throws JsonProcessingException {
         Board board = boardService.selectByPrimaryKey(1l);
         System.out.println(objectMapper.writeValueAsString(board));
