@@ -56,4 +56,11 @@ public interface IArticleService {
      * @return void
      */
     void modify (Long id, String title, String content);
+
+    /**
+     * 点赞帖子
+     * @param id 帖子Id
+     * @return void
+     */
+    void thumbsUpById (Long id);
 }

@@ -3,6 +3,7 @@ package com.me.forum.controller;
 import com.me.forum.common.AppResult;
 import com.me.forum.common.ResultCode;
 import com.me.forum.config.AppConfig;
+import com.me.forum.exception.ApplicationException;
 import com.me.forum.model.Article;
 import com.me.forum.model.Board;
 import com.me.forum.model.User;
@@ -186,6 +187,48 @@ public class ArticleController {
         articleService.modify(id, title, content);
         // 打印日志
         log.info("更新帖子成功, articleId: {}, userId: {}. ", id, user.getId());
+
+        // 返回成功结果
+        return AppResult.success();
+    }
+
+    /**
+     * 点赞帖子
+     * @param id 帖子Id
+     * @return AppResult
+     */
+    @ApiOperation("点赞帖子")
+    @PostMapping("thumbsUp")
+    public AppResult thumbsUp (HttpServletRequest request,
+                               @ApiParam("帖子Id") @RequestParam("id") @NonNull Long id) {
+        // 校验用户状态
+        HttpSession session = request.getSession(false);
+        User user = (User) session.getAttribute(AppConfig.USER_SESSION_KEY);
+        if (user.getState() == 1) {
+            return AppResult.failed(ResultCode.FAILED_USER_BANNED);
+        }
+
+        // 获取帖子信息
+        Article article = articleService.selectById(id);
+        // 非空校验
+        if (article == null || article.getDeleteState() == 1) {
+            // 打印日志
+            log.warn(ResultCode.FAILED_ARTICLE_NOT_EXISTS.toString());
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_ARTICLE_NOT_EXISTS));
+        }
+        // 校验帖子状态
+        if (article.getState() == 1) {
+            // 打印日志
+            log.warn(ResultCode.FAILED_ARTICLE_BANNED.toString());
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_ARTICLE_BANNED));
+        }
+
+        // 调用Service
+        articleService.thumbsUpById(id);
+        // 打印日志
+        log.info("点赞成功, articleId: {}", article.getId());
 
         // 返回成功结果
         return AppResult.success();
