@@ -455,7 +455,34 @@
     // 成功后，修改点赞个数 currentArticle.likeCount = currentArticle.likeCount + 1;
     $('#details_btn_like_count').click(function () {
       $.ajax({
-
+        type: 'post',
+        url: '/article/thumbsUp?id=' + currentArticle.id,
+        success: function (response) {
+          if (response.code == 0) {
+            // 更新页面的点赞数
+            currentArticle.likeCount = currentArticle.likeCount + 1;
+            $('#details_article_likeCount').html(currentArticle.likeCount);
+            // 提示
+            $.toast({
+              heading: '成功！',
+              text: '点赞帖子成功',
+              icon: 'success'
+            });
+          } else {
+            $.toast({
+              heading: '警告！',
+              text: response.message,
+              icon: 'warning'
+            })
+          }
+        },
+        error: function () {
+          $.toast({
+            heading: '错误！',
+            text: '访问出现问题，请联系管理员',
+            icon: 'error'
+          })
+        }
       });
     });
 
