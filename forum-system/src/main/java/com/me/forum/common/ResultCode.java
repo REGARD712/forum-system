@@ -40,6 +40,8 @@ public enum ResultCode {
     FAILED_NEW_ARTICLE_TITLE_OR_CONTENT_IS_NULL   (1302, "新帖标题或内容为空"),
     FAILED_ARTICLE_NOT_EXISTS                     (1303, "帖子不存在"),
     FAILED_ARTICLE_DETAIL_SELECT                  (1304, "查询帖子详情失败"),
+    FAILED_ARTICLE_UPDATE                         (1305, "更新帖子失败"),
+    FAILED_ARTICLE_BANNED                         (1306, "帖子状态异常"),
 
     // 错误
     ERROR_SERVICES                                (2000, "服务器内部错误"),

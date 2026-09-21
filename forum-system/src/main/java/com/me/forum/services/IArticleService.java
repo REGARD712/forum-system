@@ -40,4 +40,20 @@ public interface IArticleService {
      * @Description: 根据id查询帖子详情(关联三表:帖子表,用户表,板块表)
      */
     Article selectDetailById (Long id);
+
+    /**
+     * 根据Id查询帖子信息
+     * @param id
+     * @return Article
+     */
+    Article selectById (Long id);
+
+    /**
+     * 修改帖子
+     * @param id 帖子Id
+     * @param title 帖子标题
+     * @param content 帖子内容
+     * @return void
+     */
+    void modify (Long id, String title, String content);
 }
