@@ -34,4 +34,10 @@ class BoardServiceImplTest {
         Board board = boardService.selectByPrimaryKey(1l);
         System.out.println(objectMapper.writeValueAsString(board));
     }
+
+    @Test
+    void subOneArticleCountById() {
+        boardService.subOneArticleCountById(6L);
+        System.out.println("更新版块帖子数成功");
+    }
 }

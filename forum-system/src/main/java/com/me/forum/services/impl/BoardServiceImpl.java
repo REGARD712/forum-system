@@ -83,4 +83,37 @@ public class BoardServiceImpl implements IBoardService {
             throw new ApplicationException(AppResult.failed(ResultCode.FAILED_BOARD_ARTICLE_COUNT_UPDATE));
         }
     }
+
+    @Override
+    public void subOneArticleCountById(Long id) {
+        // 非空校验
+        if (id == null || id <= 0) {
+            // 打印日志
+            log.warn("{} id: {}", ResultCode.FAILED_BOARD_ARTICLE_COUNT_UPDATE, id);
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_BOARD_ARTICLE_COUNT_UPDATE));
+        }
+
+        // 查询对应板块信息
+        Board board = boardMapper.selectByPrimaryKey(id);
+        // 非空校验
+        if (board == null) {
+            // 打印日志
+            log.warn("{} boardId: {}", ResultCode.FAILED_BOARD_NOT_EXISTS, id);
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_BOARD_NOT_EXISTS));
+        }
+
+        // 更新帖子数量
+        Board updateBoard = new Board();
+        updateBoard.setId(board.getId());
+        updateBoard.setArticleCount(Math.max(board.getArticleCount() - 1, 0));
+        int row = boardMapper.updateByPrimaryKeySelective(updateBoard);
+        if (row != 1) {
+            // 打印日志
+            log.warn("{} row: {}", ResultCode.FAILED_BOARD_ARTICLE_COUNT_UPDATE, row);
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_BOARD_ARTICLE_COUNT_UPDATE));
+        }
+    }
 }

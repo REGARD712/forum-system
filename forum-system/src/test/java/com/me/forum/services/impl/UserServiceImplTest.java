@@ -57,4 +57,10 @@ class UserServiceImplTest {
     void addOneArticleCountById() {
         userService.addOneArticleCountById(2L);
     }
+
+    @Test
+    void subOneArticleCountById() {
+        userService.subOneArticleCountById(2L);
+        System.out.println("更新用户帖子数成功");
+    }
 }

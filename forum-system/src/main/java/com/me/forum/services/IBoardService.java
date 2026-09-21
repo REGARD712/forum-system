@@ -28,7 +28,14 @@ public interface IBoardService {
     /**
      * @param id 版块id
      * @return void
-     * @description: 更新对应板块的帖子数量
+     * @description: 更新对应板块的帖子数量(增加)
      */
     void addOneArticleCountById (Long id);
+
+    /**
+     * @param id 版块id
+     * @return void
+     * @description: 更新对应板块的帖子数量(减少)
+     */
+    void subOneArticleCountById (Long id);
 }

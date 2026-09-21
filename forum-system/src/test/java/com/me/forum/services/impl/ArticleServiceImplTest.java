@@ -64,4 +64,10 @@ class ArticleServiceImplTest {
         articleService.thumbsUpById(1L);
         System.out.println("点赞成功");
     }
+
+    @Test
+    void deleteById() {
+        articleService.deleteById(2L);
+        System.out.println("删除帖子成功");
+    }
 }

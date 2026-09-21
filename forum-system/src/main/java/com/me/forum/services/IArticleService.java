@@ -63,4 +63,12 @@ public interface IArticleService {
      * @return void
      */
     void thumbsUpById (Long id);
+
+    /**
+     * 删除帖子
+     * @param id 帖子Id
+     * @return void
+     */
+    @Transactional // 通过事务管理三个更新操作
+    void deleteById (Long id);
 }

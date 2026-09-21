@@ -44,4 +44,11 @@ public interface IUserService {
      * @description: 更新当前用户的发帖数
      */
     void addOneArticleCountById (Long id);
+
+    /**
+     * 更显当前用户的发帖数(减少)
+     * @param id 用户Id
+     * @return void
+     */
+    void subOneArticleCountById (Long id);
 }
