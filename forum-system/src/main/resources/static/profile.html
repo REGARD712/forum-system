@@ -103,7 +103,26 @@
     // ============= 获取用户信息 =============
     // 成功时调用initProfileUserInfo()方法，初始化用户数据
     $.ajax({
-      
+      type: 'get',
+      url: '/user/info' + userInfoQueryString,
+      success: function (response) {
+        if (response.code == 0) {
+          initProfileUserInfo(response.data);
+        } else {
+          $.toast({
+            heading: '警告！',
+            text: response.message,
+            icon: 'warning'
+          })
+        }
+      },
+      error: function () {
+        $.toast({
+          heading: '错误！',
+          text: '访问出现问题，请联系管理员',
+          icon: 'error'
+        })
+      }
     });
 
     // ============= 设置Profile页面用户信息 ================

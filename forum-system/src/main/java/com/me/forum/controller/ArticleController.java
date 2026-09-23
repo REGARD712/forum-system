@@ -114,6 +114,33 @@ public class ArticleController {
     }
 
     /**
+     * 根据用户Id查询帖子列表
+     * @param request HTTP请求
+     * @param userId 用户Id
+     * @return AppResult<List<Article>>
+     */
+    @ApiOperation("根据用户Id查询帖子列表")
+    @GetMapping("/getAllByUserId")
+    public AppResult<List<Article>> getAllByUserId (HttpServletRequest request,
+                                                    @ApiParam("用户Id") @RequestParam(value = "userId", required = false) Long userId) {
+        List<Article> articles = null;
+
+        // 分两种情况
+        if (userId == null) {
+            // 当userId为空,查询当前登录用户的帖子列表
+            HttpSession session = request.getSession(false);
+            User user = (User) session.getAttribute(AppConfig.USER_SESSION_KEY);
+            articles = articleService.selectAllByUserId(user.getId());
+        } else {
+            // 当userId不为空,就查询指定用户的帖子列表
+            articles = articleService.selectAllByUserId(userId);
+        }
+
+        // 返回结果
+        return AppResult.success(articles);
+    }
+
+    /**
      * @param id 帖子Id
      * @return AppResult<Article>
      * @Description: 根据Id查询帖子详情

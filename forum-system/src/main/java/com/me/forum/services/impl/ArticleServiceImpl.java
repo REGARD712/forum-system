@@ -131,6 +131,30 @@ public class ArticleServiceImpl implements IArticleService {
     }
 
     @Override
+    public List<Article> selectAllByUserId(Long userId) {
+        // 非空校验
+        if (userId == null || userId <= 0) {
+            // 打印日志
+            log.warn(ResultCode.FAILED_PARAMS_VALIDATE.toString());
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_PARAMS_VALIDATE));
+        }
+
+        // 查询用户信息
+        User user = userService.selectById(userId);
+        // 非空校验
+        if (user == null) {
+            // 打印日志
+            log.warn(ResultCode.FAILED_USER_NOT_EXISTS.toString());
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_USER_NOT_EXISTS));
+        }
+
+        // 调用DAO查询帖子列表并返回结果
+        return articleMapper.selectAllByUserId(userId);
+    }
+
+    @Override
     public Article selectDetailById(Long id) {
         // 非空校验
         if (id == null || id <= 0) {

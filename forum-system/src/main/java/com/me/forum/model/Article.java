@@ -32,7 +32,7 @@ public class Article {
     private String content;
 
     @ApiModelProperty("是否作者")
-    private boolean isOwn;
+    private Boolean own;
 
     // 关联User对象
     private User user;

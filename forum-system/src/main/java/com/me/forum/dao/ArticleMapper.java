@@ -24,6 +24,8 @@ public interface ArticleMapper {
 
     List<Article> selectAllByBoardId (@Param("boardId") Long boardId);
 
+    List<Article> selectAllByUserId (@Param("userId") Long userId);
+
     /**
      * @param id 帖子id
      * @return Article 帖子详情
