@@ -69,6 +69,16 @@ public class AppResult<T> {
     }
 
     /**
+     *
+     * @param resultCode 自定义的状态码与描述
+     * @param data 数据
+     * @return AppResult
+     */
+    public static <T> AppResult<T> success (ResultCode resultCode, T data) {
+        return new AppResult(resultCode.getCode(), resultCode.getMessage(), data);
+    }
+
+    /**
      * @Title: success
      * @Author: JacksonLee
      * @Date: 2026-09-05

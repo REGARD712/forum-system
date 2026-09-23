@@ -198,7 +198,11 @@ public class UserController {
         // 调用Service
         userService.modifyInfo(updateUser);
 
+        // 更新session
+        user = userService.selectById(user.getId());
+        session.setAttribute(AppConfig.USER_SESSION_KEY, user);
+
         // 返回成功信息
-        return AppResult.success(ResultCode.SUCCESS_USER_INFO_UPDATE);
+        return AppResult.success(ResultCode.SUCCESS_USER_INFO_UPDATE, user);
     }
 }
