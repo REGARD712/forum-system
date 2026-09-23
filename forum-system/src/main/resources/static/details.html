@@ -344,11 +344,31 @@
     }
 
     // ====================== 加载回复列表 ======================
-    // url: 'article/getReplies?articleId=' + currentArticle.id
+    // url: 'reply/getReplies?articleId=' + currentArticle.id
     // 成功后，调用buildArticleReply()方法构建回复列表
     function loadArticleDetailsReply() {
       $.ajax({
-
+        type: 'get',
+        url: '/reply/getReplies?articleId=' + currentArticle.id,
+        success: function (response) {
+          if (response.code == 0) {
+            // 构建回复列表
+            buildArticleReply(response.data)
+          } else {
+            $.toast({
+              heading: '警告！',
+              text: response.message,
+              icon: 'warning'
+            })
+          }
+        },
+        error: function () {
+          $.toast({
+            heading: '错误！',
+            text: '访问出现问题，请联系管理员',
+            icon: 'error'
+          })
+        }
       });
     }
     // 
@@ -531,8 +551,6 @@
             $('#details_article_replyCount').html(currentArticle.replyCount);
             // 加载回复列表并显示
             loadArticleDetailsReply();
-            // 回到首页
-            changeNavActive($('#nav-link-title'));
           } else {
             $.toast({
               heading: '警告！',
