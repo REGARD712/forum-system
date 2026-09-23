@@ -3,6 +3,8 @@ package com.me.forum.services;
 import com.me.forum.model.ArticleReply;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * 帖子回复相关业务逻辑处理层的接口
  *
@@ -18,4 +20,11 @@ public interface IArticleReplyService {
      */
     @Transactional  // (将帖子回复写入帖子回复表+在帖子表中更新帖子回复数)
     void create (ArticleReply articleReply);
+
+    /**
+     * 根据帖子Id查询回复列表
+     * @param articleId 帖子Id
+     * @return List<ArticleReply>
+     */
+    List<ArticleReply> selectByArticleId (Long articleId);
 }

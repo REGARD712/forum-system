@@ -27,4 +27,7 @@ public class ArticleReply {
     private Date createTime;
 
     private Date updateTime;
+
+    // 关联User对象(回复发送者)
+    private User user;
 }

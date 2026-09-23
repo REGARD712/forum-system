@@ -14,14 +14,12 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * 帖子回复接口
@@ -91,5 +89,37 @@ public class ArticleReplyController {
 
         // 返回成功结果
         return AppResult.success(ResultCode.SUCCESS_ARTICLE_REPLY_INSERT);
+    }
+
+    /**
+     * 获取指定帖子的回复列表
+     * @param articleId 帖子Id
+     * @return AppResult<List<ArticleReply>>
+     */
+    @ApiOperation("获取指定帖子的回复列表")
+    @GetMapping("/getReplies")
+    public AppResult<List<ArticleReply>> getRepliesByArticleId (@ApiParam("帖子Id") @RequestParam("articleId") @NonNull Long articleId) {
+        // 获取帖子信息
+        Article article = articleService.selectById(articleId);
+        // 非空校验
+        if (article == null || article.getDeleteState() == 1) {
+            // 打印日志
+            log.warn(ResultCode.FAILED_ARTICLE_NOT_EXISTS.toString());
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_ARTICLE_NOT_EXISTS));
+        }
+        // 校验帖子状态
+        if (article.getState() == 1) {
+            // 打印日志
+            log.warn(ResultCode.FAILED_ARTICLE_BANNED.toString());
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_ARTICLE_BANNED));
+        }
+
+        // 调用Service查询回复列表
+        List<ArticleReply> articleReplies = articleReplyService.selectByArticleId(article.getId());
+
+        // 返回结果
+        return AppResult.success(articleReplies);
     }
 }

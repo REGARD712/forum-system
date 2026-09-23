@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
  * IArticleReplyService的实现类
@@ -71,5 +72,19 @@ public class ArticleReplyServiceImpl implements IArticleReplyService {
         articleService.addOneArticleReplyCountById(articleReply.getArticleId());
         // 打印成功日志
         log.info("{}, articleId: {}, userId: {}", ResultCode.SUCCESS_ARTICLE_REPLY_INSERT, articleReply.getArticleId(), articleReply.getPostUserId());
+    }
+
+    @Override
+    public List<ArticleReply> selectByArticleId(Long articleId) {
+        // 非空校验
+        if (articleId == null || articleId <= 0) {
+            // 打印日志
+            log.warn(ResultCode.FAILED_PARAMS_VALIDATE.toString());
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_PARAMS_VALIDATE));
+        }
+
+        // 调用DAO查询并返回
+        return articleReplyMapper.selectByArticleId(articleId);
     }
 }
