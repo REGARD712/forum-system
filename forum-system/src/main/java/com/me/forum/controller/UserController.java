@@ -6,6 +6,7 @@ import com.me.forum.config.AppConfig;
 import com.me.forum.model.User;
 import com.me.forum.services.IUserService;
 import com.me.forum.utils.MD5Util;
+import com.me.forum.utils.StringUtil;
 import com.me.forum.utils.UUIDUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -150,5 +151,54 @@ public class UserController {
         }
 
         return AppResult.success(ResultCode.SUCCESS_LOG_OUT);
+    }
+
+    /**
+     * 修改个人信息
+     * @param request HTTP请求
+     * @param username 用户名
+     * @param nickname 昵称
+     * @param gender   性别
+     * @param email    电子邮箱
+     * @param phoneNum 电话号码
+     * @param remark   个人简介
+     * @return AppResult
+     */
+    @ApiOperation("修改个人信息")
+    @PostMapping("/modifyInfo")
+    public AppResult modifyInfo (HttpServletRequest request,
+                                 @ApiParam("用户名") @RequestParam(value = "username", required = false) String username,
+                                 @ApiParam("昵称") @RequestParam(value = "nickname", required = false) String nickname,
+                                 @ApiParam("性别") @RequestParam(value = "gender", required = false) Byte gender,
+                                 @ApiParam("电子邮箱") @RequestParam(value = "email", required = false) String email,
+                                 @ApiParam("电话号码") @RequestParam(value = "phoneNum", required = false) String phoneNum,
+                                 @ApiParam("个人简介") @RequestParam(value = "remark", required = false) String remark) {
+        // 非空校验
+        if (StringUtil.isEmpty(username) && StringUtil.isEmpty(nickname)
+         && StringUtil.isEmpty(email) && StringUtil.isEmpty(phoneNum)
+         && StringUtil.isEmpty(remark) && gender == null) {
+            // 返回错误信息
+            return AppResult.failed(ResultCode.FAILED_USER_INFO_EMPTY);
+        }
+
+        // 获取当前登录用户信息
+        HttpSession session = request.getSession(false);
+        User user = (User) session.getAttribute(AppConfig.USER_SESSION_KEY);
+
+        // 构造更新对象
+        User updateUser = new User();
+        updateUser.setId(user.getId());
+        updateUser.setUsername(username);
+        updateUser.setNickname(nickname);
+        updateUser.setGender(gender);
+        updateUser.setEmail(email);
+        updateUser.setPhoneNum(phoneNum);
+        updateUser.setRemark(remark);
+
+        // 调用Service
+        userService.modifyInfo(updateUser);
+
+        // 返回成功信息
+        return AppResult.success(ResultCode.SUCCESS_USER_INFO_UPDATE);
     }
 }

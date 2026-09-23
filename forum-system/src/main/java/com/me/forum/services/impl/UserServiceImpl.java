@@ -192,9 +192,113 @@ public class UserServiceImpl implements IUserService {
         int row = userMapper.updateByPrimaryKeySelective(updateUser);
         if (row != 1) {
             // 打印日志
-            log.warn("{} row: {}", ResultCode.FAILED_USER_ARTICLE_COUNT_UPDATE, row);
+            log.warn("{}", ResultCode.FAILED_USER_ARTICLE_COUNT_UPDATE);
             // 抛出异常
             throw new ApplicationException(AppResult.failed(ResultCode.FAILED_USER_ARTICLE_COUNT_UPDATE));
+        }
+    }
+
+    @Override
+    public void modifyInfo(User user) {
+        // 非空校验
+        if (user == null || user.getId() == null || user.getId() <= 0) {
+            // 打印日志
+            log.warn(ResultCode.FAILED_PARAMS_VALIDATE.toString());
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_PARAMS_VALIDATE));
+        }
+
+        // 获取用户信息
+        User existsUser = userMapper.selectByPrimaryKey(user.getId());
+        // 非空校验
+        if (existsUser == null || existsUser.getId() == null || existsUser.getId() <= 0) {
+            // 打印日志
+            log.warn("{}", ResultCode.FAILED_USER_NOT_EXISTS);
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_USER_NOT_EXISTS));
+        }
+
+        // 构造更新对象
+        User updateUser = new User();
+        // 标志位检查属性是否都为空,false表示都为空,true则表示有不为空的
+        boolean check = false;
+        // 设置用户Id
+        updateUser.setId(user.getId());
+        // 对每一个属性进行校验并赋值
+        // 校验用户名
+        if (!StringUtil.isEmpty(user.getUsername())
+        && !user.getUsername().equals(existsUser.getUsername())) {
+            // 需要更新用户名,同时需要进行唯一性校验
+            User checkUser = userMapper.selectByUserName(updateUser.getUsername());
+            // 校验
+            if (checkUser != null) {
+                // 该用户名已存在,不可改为该用户名
+                throw new ApplicationException(AppResult.failed(ResultCode.FAILED_USER_NAME_EXISTS));
+            }
+            // 可以改为该用户名
+            updateUser.setUsername(user.getUsername());
+            // 更新标志位
+            check = true;
+        }
+        // 校验昵称
+        if (!StringUtil.isEmpty(user.getNickname())
+        && !user.getNickname().equals(existsUser.getNickname())) {
+            // 需要更新昵称
+            updateUser.setNickname(user.getNickname());
+            // 更新标志位
+            check = true;
+        }
+        // 校验性别
+        if (user.getGender() != null
+        && !user.getGender().equals(existsUser.getGender())) {
+            // 需要更新性别
+            updateUser.setGender(user.getGender());
+            // 合法性校验
+            if (updateUser.getGender() > 2 || updateUser.getGender() < 0) {
+                updateUser.setGender((byte) 2);
+            }
+            // 更新标志位
+            check = true;
+        }
+        // 校验电子邮箱
+        if (!StringUtil.isEmpty(user.getEmail())
+        && !user.getEmail().equals(existsUser.getEmail())) {
+            // 需要更新昵称
+            updateUser.setEmail(user.getEmail());
+            // 更新标志位
+            check = true;
+        }
+        // 校验电话号码
+        if (!StringUtil.isEmpty(user.getPhoneNum())
+        && !user.getPhoneNum().equals(existsUser.getPhoneNum())) {
+            // 需要更新昵称
+            updateUser.setPhoneNum(user.getPhoneNum());
+            // 更新标志位
+            check = true;
+        }
+        // 校验个人简介
+        if (!StringUtil.isEmpty(user.getRemark())
+        && !user.getRemark().equals(existsUser.getRemark())) {
+            // 需要更新昵称
+            updateUser.setRemark(user.getRemark());
+            // 更新标志位
+            check = true;
+        }
+        // 判断标志位:若为false就抛异常,否则写入数据库
+        if (!check) {
+            // 打印日志
+            log.warn(ResultCode.FAILED_USER_INFO_EMPTY.toString());
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_USER_INFO_EMPTY));
+        }
+
+        // 调用DAO写入数据库
+        int row = userMapper.updateByPrimaryKeySelective(updateUser);
+        if (row != 1) {
+            // 打印日志
+            log.warn("{}", ResultCode.FAILED_USER_INFO_UPDATE);
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_USER_INFO_UPDATE));
         }
     }
 }

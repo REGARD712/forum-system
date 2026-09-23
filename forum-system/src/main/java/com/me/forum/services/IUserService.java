@@ -51,4 +51,11 @@ public interface IUserService {
      * @return void
      */
     void subOneArticleCountById (Long id);
+
+    /**
+     * 修改用户个人信息
+     * @param user 用户对象
+     * @return void
+     */
+    void modifyInfo (User user);
 }

@@ -97,7 +97,8 @@
                         原密码
                       </label>
                       <div class="input-group input-group-flat">
-                        <input id="settings_input_oldPassword" type="password" class="form-control" placeholder="请输入密码" autocomplete="off">
+                        <input id="settings_input_oldPassword" type="password" class="form-control" placeholder="请输入密码"
+                          autocomplete="off">
                         <span class="input-group-text">
                           <a href="#" class="link-secondary" title="显示密码"
                             data-bs-toggle="tooltip"><!-- Download SVG icon from http://tabler-icons.io/i/eye -->
@@ -120,7 +121,8 @@
                         新原密码
                       </label>
                       <div class="input-group input-group-flat">
-                        <input id="settings_input_newPassword" type="password" class="form-control" placeholder="请输入密码" autocomplete="off">
+                        <input id="settings_input_newPassword" type="password" class="form-control" placeholder="请输入密码"
+                          autocomplete="off">
                         <span class="input-group-text">
                           <a href="#" class="link-secondary" title="显示密码"
                             data-bs-toggle="tooltip"><!-- Download SVG icon from http://tabler-icons.io/i/eye -->
@@ -142,7 +144,8 @@
                         确认密码
                       </label>
                       <div class="input-group input-group-flat">
-                        <input id="settings_input_passwordRepeat" type="password" class="form-control" placeholder="请输入密码" autocomplete="off">
+                        <input id="settings_input_passwordRepeat" type="password" class="form-control"
+                          placeholder="请输入密码" autocomplete="off">
                         <span class="input-group-text">
                           <a href="#" class="link-secondary" title="显示密码"
                             data-bs-toggle="tooltip"><!-- Download SVG icon from http://tabler-icons.io/i/eye -->
@@ -161,7 +164,8 @@
                     </div>
 
                     <div class="form-footer">
-                      <button id="settings_submit_password" type="button" class="btn btn-outline-danger w-100">提交修改</button>
+                      <button id="settings_submit_password" type="button"
+                        class="btn btn-outline-danger w-100">提交修改</button>
                     </div>
                   </form>
                 </div>
@@ -189,11 +193,30 @@
   </div>
 </div>
 <script>
-  $(function() {
+  $(function () {
     // ================= 获取用户详情，初始化页面内容 =================
     // 发送AJAX请求，成功时 调用initUserInfo方法，完成页面数据初始化
     $.ajax({
-      
+      type: 'get',
+      url: '/user/info',
+      success: function (response) {
+        if (response.code == 0) {
+          initUserInfo(response.data);
+        } else {
+          $.toast({
+            heading: '警告！',
+            text: response.message,
+            icon: 'warning'
+          })
+        }
+      },
+      error: function () {
+        $.toast({
+          heading: '错误！',
+          text: '访问出现问题，请联系管理员',
+          icon: 'error'
+        })
+      }
     });
   });
 
@@ -246,110 +269,110 @@
 
     // 发送请求，提示响应结果
     $.ajax({
-      
+
     });
 
   }
 
   // ================= 处理选择头像事件 =================
-  function openFileDialog () {
+  function openFileDialog() {
     // 触发选择文件按钮的点击事件
     $('#settings_input_chooiceAvatar').click();
   }
 
   // ================= 修改用户昵称 =================
-  $('#setting_submit_nickname').click(function(){
+  $('#setting_submit_nickname').click(function () {
     // 获取值
     let nicknameEl = $('#setting_input_nickname');
     // 校验
-    if(!nicknameEl.val()) {
+    if (!nicknameEl.val()) {
       nicknameEl.focus();
       return false;
     }
     // 构造数据
     let nicknameObj = {
-      id : $('#settings_user_id').val(),
-      nickname : nicknameEl.val()
+      id: $('#settings_user_id').val(),
+      nickname: nicknameEl.val()
     }
     // 发送请求
     changeUserInfo(nicknameObj);
   });
 
   // ================= 修改邮箱 =================
-  $('#setting_submit_email').click(function(){
+  $('#setting_submit_email').click(function () {
     // 获取值
     let emailEl = $('#setting_input_email');
     // 校验
-    if(!emailEl.val()) {
+    if (!emailEl.val()) {
       emailEl.focus();
       return false;
     }
     // 构造数据
     let emailObj = {
-      id : $('#settings_user_id').val(),
-      email : emailEl.val()
+      id: $('#settings_user_id').val(),
+      email: emailEl.val()
     }
     // 发送请求
     changeUserInfo(emailObj);
   });
 
   // ================= 修改电话 =================
-  $('#setting_submit_phoneNum').click(function(){
+  $('#setting_submit_phoneNum').click(function () {
     // 获取值
     let phoneNumEl = $('#setting_input_phoneNum');
     // 校验
-    if(!phoneNumEl.val()) {
+    if (!phoneNumEl.val()) {
       phoneNumEl.focus();
       return false;
     }
     // 构造数据
     let phoneNumObj = {
-      id : $('#settings_user_id').val(),
-      phoneNum : phoneNumEl.val()
+      id: $('#settings_user_id').val(),
+      phoneNum: phoneNumEl.val()
     }
     // 发送请求
     changeUserInfo(phoneNumObj);
   });
 
-  
+
   // ================= 修改个人介绍 =================
-  $('#settings_submit_remark').click(function(){
+  $('#settings_submit_remark').click(function () {
     // 获取值
     let remarkEl = $('#settings_textarea_remark');
     // 校验
-    if(!remarkEl.val()) {
+    if (!remarkEl.val()) {
       remarkEl.focus();
       return false;
     }
     // 构造数据
     let remarkObj = {
-      id : $('#settings_user_id').val(),
-      remark : remarkEl.val()
+      id: $('#settings_user_id').val(),
+      remark: remarkEl.val()
     }
     // 发送请求
     changeUserInfo(remarkObj);
   });
 
   // ================= 修改密码 =================
-  $('#settings_submit_password').click(function() {
+  $('#settings_submit_password').click(function () {
     // 获取值
     let oldPasswordEl = $('#settings_input_oldPassword');
     // 校验
-    if(!oldPasswordEl.val()) {
+    if (!oldPasswordEl.val()) {
       oldPasswordEl.focus();
       return false;
     }
     // 获取值
     let newPasswordEl = $('#settings_input_newPassword');
     // 校验
-    if(!newPasswordEl.val()) {
+    if (!newPasswordEl.val()) {
       newPasswordEl.focus();
       return false;
     }
     // 获取值
     let passwordRepeatEl = $('#settings_input_passwordRepeat');
     // 校验
-    if(!passwordRepeatEl.val()) {
+    if (!passwordRepeatEl.val()) {
       passwordRepeatEl.focus();
       return false;
     }
@@ -367,11 +390,11 @@
     }
 
     // 构造数据
-    let  passwrodObj = {
-      id : $('#settings_user_id').val(),
-      oldPassword : oldPasswordEl.val(),
-      newPassword : newPasswordEl.val(),
-      passwordRepeat : passwordRepeatEl.val()
+    let passwrodObj = {
+      id: $('#settings_user_id').val(),
+      oldPassword: oldPasswordEl.val(),
+      newPassword: newPasswordEl.val(),
+      passwordRepeat: passwordRepeatEl.val()
 
     }
     // 发送请求
@@ -381,5 +404,5 @@
     newPasswordEl.val('');
     passwordRepeatEl.val('');
   });
-  
+
 </script>

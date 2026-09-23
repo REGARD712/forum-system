@@ -28,6 +28,10 @@ public enum ResultCode {
     FAILED_USER_BANNED                            (1106, "您已被禁言，请联系管理员，并重新登录"),
     FAILED_TWO_PWD_NOT_SAME                       (1107, "两次输入的密码不一致"),
     FAILED_USER_ARTICLE_COUNT_UPDATE              (1108, "更新用户帖子数量失败"),
+    FAILED_USER_NAME_EXISTS                       (1109, "用户名已存在"),
+    SUCCESS_USER_INFO_UPDATE                      (1110, "个人信息修改成功"),
+    FAILED_USER_INFO_UPDATE                       (1111, "个人信息修改失败"),
+    FAILED_USER_INFO_EMPTY                        (1112, "请输入要修改的内容"),
 
     // 板块相关操作
     FAILED_BOARD_NOT_EXISTS                       (1200, "板块不存在"),

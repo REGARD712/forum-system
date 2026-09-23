@@ -64,4 +64,14 @@ class UserServiceImplTest {
         userService.subOneArticleCountById(2L);
         System.out.println("更新用户帖子数成功");
     }
+
+    @Test
+    @Transactional
+    void modifyInfo() {
+        User user = new User();
+        user.setId(2L);
+        user.setRemark("我是程序员小李");
+        userService.modifyInfo(user);
+        System.out.println("更新用户信息成功");
+    }
 }
