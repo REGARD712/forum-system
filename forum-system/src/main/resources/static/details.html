@@ -502,6 +502,10 @@
       }
 
       // 构造帖子对象
+      let request = {
+        articleId: articleIdEl.val(),
+        content: replyContentEl.val()
+      };
 
       // 发送请求，成功后 
       // 1. 清空回复区域
@@ -509,7 +513,41 @@
       // 3. 调用loadArticleDetailsReply()方法，重新构建回贴列表
 
       $.ajax({
-
+        type: 'post',
+        url: "/reply/create",
+        contentType: 'application/x-www-form-urlencoded',
+        data: request,
+        success: function (response) {
+          if (response.code == 1310) {
+            // 提示
+            $.toast({
+              heading: '成功！',
+              text: response.message,
+              icon: 'success'
+            });
+            // 更新全局变量的值
+            currentArticle.replyCount = currentArticle.replyCount + 1;
+            // 更新页面的回复数
+            $('#details_article_replyCount').html(currentArticle.replyCount);
+            // 加载回复列表并显示
+            loadArticleDetailsReply();
+            // 回到首页
+            changeNavActive($('#nav-link-title'));
+          } else {
+            $.toast({
+              heading: '警告！',
+              text: response.message,
+              icon: 'warning'
+            })
+          }
+        },
+        error: function () {
+          $.toast({
+            heading: '错误！',
+            text: '访问出现问题，请联系管理员',
+            icon: 'error'
+          })
+        }
       });
     });
 
