@@ -172,7 +172,26 @@
     // 成功后，调用buildProfileUserArticle()方法，构造帖子列表
 
     $.ajax({
-      
+      type: 'get',
+      url: '/article/getAllByUserId' + articleListQueryString,
+      success: function (response) {
+        if (response.code == 0) {
+          buildProfileUserArticle(response.data);
+        } else {
+          $.toast({
+            heading: '警告！',
+            text: response.message,
+            icon: 'warning'
+          })
+        }
+      },
+      error: function () {
+        $.toast({
+          heading: '错误！',
+          text: '访问出现问题，请联系管理员',
+          icon: 'error'
+        })
+      }
     });
 
     // ============= 构建用户帖子列表 =============
