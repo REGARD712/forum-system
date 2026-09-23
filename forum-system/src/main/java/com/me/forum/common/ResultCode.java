@@ -42,6 +42,10 @@ public enum ResultCode {
     FAILED_ARTICLE_DETAIL_SELECT                  (1304, "查询帖子详情失败"),
     FAILED_ARTICLE_UPDATE                         (1305, "更新帖子失败"),
     FAILED_ARTICLE_BANNED                         (1306, "帖子状态异常"),
+    FAILED_ARTICLE_REPLY_COUNT_UPDATE             (1307, "帖子回复数更新失败"),
+    FAILED_ARTICLE_REPLY_CONTENT_IS_NULL          (1308, "帖子回复内容为空"),
+    FAILED_ARTICLE_REPLY_INSERT                   (1309, "回复失败"),
+    SUCCESS_ARTICLE_REPLY_INSERT                  (1310, "回复成功"),
 
     // 错误
     ERROR_SERVICES                                (2000, "服务器内部错误"),

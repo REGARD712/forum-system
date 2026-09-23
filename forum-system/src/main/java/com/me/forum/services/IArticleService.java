@@ -71,4 +71,11 @@ public interface IArticleService {
      */
     @Transactional // 通过事务管理三个更新操作
     void deleteById (Long id);
+
+    /**
+     * 更新帖子回复数(加1)
+     * @param id
+     * @return void
+     */
+    void addOneArticleReplyCountById (Long id);
 }

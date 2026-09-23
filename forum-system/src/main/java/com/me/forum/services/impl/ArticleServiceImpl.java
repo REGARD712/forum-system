@@ -303,4 +303,45 @@ public class ArticleServiceImpl implements IArticleService {
         // 打印成功日志
         log.info("删除帖子成功, articleId: {}, userId: {}", article.getId(), article.getUserId());
     }
+
+    @Override
+    public void addOneArticleReplyCountById(Long id) {
+        // 非空校验
+        if (id == null || id <= 0) {
+            // 打印日志
+            log.warn(ResultCode.FAILED_PARAMS_VALIDATE.toString());
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_PARAMS_VALIDATE));
+        }
+
+        // 获取帖子信息
+        Article article = articleMapper.selectByPrimaryKey(id);
+        // 非空校验
+        if (article == null || article.getDeleteState() == 1) {
+            // 打印日志
+            assert article != null;
+            log.warn("{} articleId: {}", ResultCode.FAILED_ARTICLE_NOT_EXISTS, article.getId());
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_ARTICLE_NOT_EXISTS));
+        }
+        // 校验帖子状态
+        if (article.getState() == 1) {
+            // 打印日志
+            log.warn(ResultCode.FAILED_ARTICLE_BANNED.toString());
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_ARTICLE_BANNED));
+        }
+
+        // 构造更新对象
+        Article updateArticle = new Article();
+        updateArticle.setId(article.getId());
+        updateArticle.setReplyCount(article.getReplyCount() + 1);
+        int row = articleMapper.updateByPrimaryKeySelective(updateArticle);
+        if (row != 1) {
+            // 打印日志
+            log.warn("{} row: {}", ResultCode.FAILED_ARTICLE_REPLY_COUNT_UPDATE, row);
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_ARTICLE_REPLY_COUNT_UPDATE));
+        }
+    }
 }
