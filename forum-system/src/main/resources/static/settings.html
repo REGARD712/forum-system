@@ -118,7 +118,7 @@
 
                     <div class="mb-2">
                       <label class="form-label required">
-                        新原密码
+                        新密码
                       </label>
                       <div class="input-group input-group-flat">
                         <input id="settings_input_newPassword" type="password" class="form-control" placeholder="请输入密码"
@@ -280,6 +280,11 @@
           if (user && user.nickname) {
             $('#settings_nickname').html(user.nickname);
             $('#index_nav_nickname').html(user.nickname);
+          }
+          // 若密码修改成功,就强制重新登陆
+          if (type == 2) {
+            location.assign('sign-in.html');
+            return;
           }
           // 提示信息
           $.toast({
