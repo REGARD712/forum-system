@@ -53,6 +53,12 @@ public enum ResultCode {
     FAILED_ARTICLE_REPLY_INSERT                   (1309, "回复失败"),
     SUCCESS_ARTICLE_REPLY_INSERT                  (1310, "回复成功"),
 
+    // 站内信相关操作
+    SUCCESS_MESSAGE_CREATE                        (1400, "发送站内信成功"),
+    FAILED_MESSAGE_CREATE_CONTENT_EMPTY           (1401, "站内信内容为空"),
+    FAILED_MESSAGE_CREATE                         (1402, "发送站内信失败"),
+    FAILED_MESSAGE_CREATE_RECEIVE_USER_BANNED     (1403, "接收者用户状态异常"),
+
     // 错误
     ERROR_SERVICES                                (2000, "服务器内部错误"),
     ERROR_IS_NULL                                 (2001, "IS NULL.");

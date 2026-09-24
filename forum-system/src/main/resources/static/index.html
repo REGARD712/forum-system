@@ -83,8 +83,14 @@
 
             <!-- 小铃铛，站内信 -->
             <div class="nav-item dropdown d-none d-md-flex me-3">
-              <a class="nav-link px-0" data-bs-toggle="offcanvas" href="#index_message_offcanvasEnd" aria-controls="offcanvasEnd">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" /><path d="M9 17v1a3 3 0 0 0 6 0v-1" /></svg>
+              <a class="nav-link px-0" data-bs-toggle="offcanvas" href="#index_message_offcanvasEnd"
+                aria-controls="offcanvasEnd">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                  stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
+                  <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
+                </svg>
                 <!-- 小红点 -->
                 <span class="badge bg-red" id="index_nva_message_badge" style="display: none;"></span>
               </a>
@@ -156,9 +162,10 @@
       <div id="bit-forum-content">
 
       </div>
-      
+
       <!-- 站内信区域 开始 -->
-      <div class="offcanvas offcanvas-end" tabindex="-1" id="index_message_offcanvasEnd" aria-labelledby="offcanvasEndLabel" style="width: 650px">
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="index_message_offcanvasEnd"
+        aria-labelledby="offcanvasEndLabel" style="width: 650px">
         <div class="offcanvas-header">
           <h2 class="offcanvas-title" id="offcanvasEndLabel">所有站内信</h2>
           <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -166,7 +173,7 @@
         <div class="offcanvas-body" id="index_div_message">
           <div class="list-group list-group-flush list-group-hoverable" id="index_div_message_list">
             <!-- 站内信列表开始 动态加载 -->
-            
+
             <!-- 站内信列表结束 -->
           </div>
         </div>
@@ -207,7 +214,7 @@
           <h5 class="modal-title">发送站内信</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        
+
         <div class="modal-body">
           <div class="row">
             <div class="col-lg-12">
@@ -223,13 +230,16 @@
           <a href="javascript:void(0);" class="btn me-auto" data-bs-dismiss="modal" id="index_message_receive_cancel">
             取消
           </a>
-          <a href="javascript:void(0);" class="btn btn-primary ms-auto" data-bs-dismiss="modal" id="btn_index_send_message">
+          <a href="javascript:void(0);" class="btn btn-primary ms-auto" data-bs-dismiss="modal"
+            id="btn_index_send_message">
             <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-send" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-send" width="24" height="24"
+              viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+              stroke-linejoin="round">
               <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
               <path d="M10 14l11 -11"></path>
               <path d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5"></path>
-           </svg>
+            </svg>
             发送
           </a>
         </div>
@@ -261,7 +271,8 @@
               <div>
                 <input type="text" style="display: none;" id="index_message_reply_receive_user_id">
                 <label class="form-label" id="index_message_reply_receive_user_name">回复给: </label>
-                <textarea class="form-control" rows="5" id="index_message_reply_receive_content" placeholder="请输入回复内容"></textarea>
+                <textarea class="form-control" rows="5" id="index_message_reply_receive_content"
+                  placeholder="请输入回复内容"></textarea>
               </div>
             </div>
           </div>
@@ -272,21 +283,26 @@
           </a>
           <a href="javascript:void(0);" class="btn btn-primary ms-auto" id="btn_index_message_reply">
             <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message" width="24" height="24"
+              viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+              stroke-linejoin="round">
               <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
               <path d="M8 9h8"></path>
               <path d="M8 13h6"></path>
               <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z"></path>
-           </svg>
+            </svg>
             回复
           </a>
-          <a href="javascript:void(0);" class="btn btn-primary ms-auto" data-bs-dismiss="modal" id="btn_index_send_message_reply" style="display: none;">
+          <a href="javascript:void(0);" class="btn btn-primary ms-auto" data-bs-dismiss="modal"
+            id="btn_index_send_message_reply" style="display: none;">
             <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-send" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-send" width="24" height="24"
+              viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+              stroke-linejoin="round">
               <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
               <path d="M10 14l11 -11"></path>
               <path d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5"></path>
-           </svg>
+            </svg>
             发送
           </a>
         </div>
@@ -327,11 +343,11 @@
           $('#index_nav_avatar').css('background-image', 'url(' + user.avatarUrl + ')');
 
           // 设置用户名
-          $('#index_nav_nickname'). html(user.nickname);
+          $('#index_nav_nickname').html(user.nickname);
 
           // 设置用户组(管理员/普通用户)
           let subName = user.isAdmin == 1 ? '管理员' : '普通用户';
-          $('#index_nav_name_sub'). html(subName);
+          $('#index_nav_name_sub').html(subName);
         } else {
           $.toast({
             heading: '警告！',
@@ -457,18 +473,18 @@
     });
 
     // ============ 发送站内信 ==============
-    $('#btn_index_send_message').click(function() {
+    $('#btn_index_send_message').click(function () {
       // 获取输入内容
       let receiveUserIdEl = $('#index_message_receive_user_id');
       let messageContentEl = $('#index_message_receive_content');
       // 校验
       if (!receiveUserIdEl.val()) {
         $.toast({
-            heading: '警告',
-            text: '出错了，请联系管理员',
-            icon: 'warning'
-          });
-          return;
+          heading: '警告',
+          text: '出错了，请联系管理员',
+          icon: 'warning'
+        });
+        return;
       }
       if (!messageContentEl.val()) {
         $.toast({
@@ -483,18 +499,46 @@
 
       // 构造发送数据
       let postData = {
-        receiveUserId : receiveUserIdEl.val(),
-        content : messageContentEl.val()
+        receiveUserId: receiveUserIdEl.val(),
+        content: messageContentEl.val()
       };
 
       // 发送站内信请求 url = message/send, 成功与失败都调用cleanMessageForm()方法，清空输入框
       $.ajax({
-
+        type: 'post',
+        url: 'message/send',
+        contentType: 'application/x-www-form-urlencoded',
+        data: postData,
+        success: function (response) {
+          if (response.code == 1400) {
+            // 清空输入框
+            cleanMessageForm();
+            // 提示成功信息
+            $.toast({
+              heading: '成功！',
+              text: response.message,
+              icon: 'success'
+            })
+          } else {
+            $.toast({
+              heading: '警告！',
+              text: response.message,
+              icon: 'warning'
+            })
+          }
+        },
+        error: function () {
+          $.toast({
+            heading: '错误！',
+            text: '访问出现问题，请联系管理员',
+            icon: 'error'
+          })
+        }
       });
     });
 
     // 清空站内信输入区
-    function cleanMessageForm () {
+    function cleanMessageForm() {
       $('#index_message_receive_user_id').val('');
       $('#index_message_receive_user_name').html('');
       $('#index_message_receive_content').val('');
@@ -508,23 +552,23 @@
     // ============ 获取用户未读站内信数量 ============
     // url = message/getUnreadCount
     // 成功后，处理小红点是否显示 #index_nva_message_badge
-    function requestMessageUnreadCount () {
+    function requestMessageUnreadCount() {
       $.ajax({
-        
+
       });
     }
     requestMessageUnreadCount();
-    
+
 
     // ============ 获取用户所有站内信 ============
     // 成功后，调用buildMessageList() 方法构建站内信列表
-    function requestMessageList () {
+    function requestMessageList() {
       $.ajax({
-        
+
       });
     }
     requestMessageList();
-    
+
 
     // ============ 处理站内信列表页面 ============
     function buildMessageList(messageList) {
@@ -544,8 +588,8 @@
           + ' <div class="col-auto"><span class="status-dot d-block"></span></div> '
           + ' <div class="col text-truncate"> '
           + ' <a href="javascript:void(0);" class="text-body d-block index_message_title" data-bs-toggle="modal" data-bs-target="#index_message_reply_modal"> '
-          +  ' <span class="index_message_item_statue">[已读]</span> &nbsp; '
-          + ' <span>来自 <strong> '+ messageItem.postUser.nickname 
+          + ' <span class="index_message_item_statue">[已读]</span> &nbsp; '
+          + ' <span>来自 <strong> ' + messageItem.postUser.nickname
           + ' </strong> 的消息</span></a> '
           + ' <div class="d-block text-muted text-truncate mt-n1"> '
           + messageItem.content
@@ -561,7 +605,7 @@
           + ' </div> '
           + ' </div> '
           + ' </div>';
-        
+
         // 转为jQuery对象
         let messageItemEL = $(itemHtml);
         // 设置状态 bg-green bg-red status-dot-animated
@@ -607,10 +651,10 @@
 
       });
     }
-    
+
     // ============ 处理阅读和回复站内信 ============
     // 清空站内信输入区
-    function cleanMessageReplyForm () {
+    function cleanMessageReplyForm() {
       // 详情区
       $('#index_message_detail_id').val('');
       $('#index_message_detail_title').html('');
@@ -656,7 +700,7 @@
       // 构造请求数据
       let postData = {
         repliedId: $('#index_message_detail_id').val(),
-        receiveUserId : $('#index_message_reply_receive_user_id').val(),
+        receiveUserId: $('#index_message_reply_receive_user_id').val(),
         content: replyReceiveContentEl.val()
       };
 
@@ -666,8 +710,8 @@
       // requestMessageList();
       // // 清空输入区
       // cleanMessageReplyForm ();
-      $.ajax ({
-        
+      $.ajax({
+
       });
 
 

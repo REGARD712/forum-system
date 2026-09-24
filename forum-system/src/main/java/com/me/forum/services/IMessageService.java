@@ -1,0 +1,19 @@
+package com.me.forum.services;
+
+import com.me.forum.model.Message;
+
+/**
+ * 处理站内信相关业务逻辑的Service接口
+ *
+ * @InterfaceName：IMessageService
+ * @Author: JacksonLee
+ * @Date: 2026/9/24
+ */
+public interface IMessageService {
+    /**
+     * 新增一条站内信
+     * @param message 站内信对象
+     * @return void
+     */
+    void create (Message message);
+}
