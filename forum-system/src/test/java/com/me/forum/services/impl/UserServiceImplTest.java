@@ -74,4 +74,11 @@ class UserServiceImplTest {
         userService.modifyInfo(user);
         System.out.println("更新用户信息成功");
     }
+
+    @Test
+    @Transactional
+    void modifyPassword() {
+        userService.modifyPassword(2L, "123456", "654321");
+        System.out.println("修改密码成功");
+    }
 }

@@ -8,6 +8,7 @@ import com.me.forum.model.User;
 import com.me.forum.services.IUserService;
 import com.me.forum.utils.MD5Util;
 import com.me.forum.utils.StringUtil;
+import com.me.forum.utils.UUIDUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -170,7 +171,7 @@ public class UserServiceImpl implements IUserService {
         // 非空校验
         if (id == null || id <= 0) {
             // 打印日志
-            log.warn("{} id: {}", ResultCode.FAILED_USER_ARTICLE_COUNT_UPDATE, id);
+            log.warn("{}", ResultCode.FAILED_USER_ARTICLE_COUNT_UPDATE);
             // 抛出异常
             throw new ApplicationException(AppResult.failed(ResultCode.FAILED_USER_ARTICLE_COUNT_UPDATE));
         }
@@ -180,7 +181,7 @@ public class UserServiceImpl implements IUserService {
         // 非空校验
         if (user == null) {
             // 打印日志
-            log.warn("{} userId: {}", ResultCode.FAILED_USER_NOT_EXISTS, id);
+            log.warn("{}", ResultCode.FAILED_USER_NOT_EXISTS);
             // 抛出异常
             throw new ApplicationException(AppResult.failed(ResultCode.FAILED_USER_NOT_EXISTS));
         }
@@ -299,6 +300,62 @@ public class UserServiceImpl implements IUserService {
             log.warn("{}", ResultCode.FAILED_USER_INFO_UPDATE);
             // 抛出异常
             throw new ApplicationException(AppResult.failed(ResultCode.FAILED_USER_INFO_UPDATE));
+        }
+    }
+
+    @Override
+    public void modifyPassword(Long id, String oldPassword, String newPassword) {
+        // 非空校验
+        if (id == null || id <= 0) {
+            // 打印日志
+            log.warn("{}", ResultCode.FAILED_PARAMS_VALIDATE);
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_PARAMS_VALIDATE));
+        }
+        if (StringUtil.isEmpty(newPassword) || StringUtil.isEmpty(oldPassword)) {
+            // 打印日志
+            log.warn("{}", ResultCode.FAILED_USER_INFO_EMPTY);
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_USER_INFO_EMPTY));
+        }
+
+        // 获取用户信息
+        User existsUser = userMapper.selectByPrimaryKey(id);
+        // 非空校验
+        if (existsUser == null || existsUser.getId() <= 0 || existsUser.getDeleteState() == 1) {
+            // 打印日志
+            log.warn("{}", ResultCode.FAILED_USER_NOT_EXISTS);
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_USER_NOT_EXISTS));
+        }
+
+        // 校验原密码是否正确
+        if (!MD5Util.md5Salt(oldPassword, existsUser.getSalt()).equalsIgnoreCase(existsUser.getPassword())) {
+            // 打印日志
+            log.warn("{}", ResultCode.FAILED_USER_OLD_PASSWORD_WRONG);
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_USER_OLD_PASSWORD_WRONG));
+        }
+
+        // 生成新盐
+        String newSalt = UUIDUtil.UUID_32();
+        // 加密生成新密文
+        String encryptedPassword = MD5Util.md5Salt(newPassword, newSalt);
+
+        // 构造更新对象
+        User updateUser = new User();
+        updateUser.setId(existsUser.getId());
+        updateUser.setSalt(newSalt);
+        updateUser.setPassword(encryptedPassword);
+        updateUser.setUpdateTime(new Date());
+
+        // 调用DAO写入数据库
+        int row = userMapper.updateByPrimaryKeySelective(updateUser);
+        if (row != 1) {
+            // 打印日志
+            log.warn("{}", ResultCode.ERROR_SERVICES);
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.ERROR_SERVICES));
         }
     }
 }

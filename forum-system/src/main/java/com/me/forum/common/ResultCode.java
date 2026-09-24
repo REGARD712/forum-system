@@ -32,6 +32,8 @@ public enum ResultCode {
     SUCCESS_USER_INFO_UPDATE                      (1110, "个人信息修改成功"),
     FAILED_USER_INFO_UPDATE                       (1111, "个人信息修改失败"),
     FAILED_USER_INFO_EMPTY                        (1112, "请输入要修改的内容"),
+    FAILED_USER_OLD_PASSWORD_WRONG                (1113, "原密码错误，请重新输入"),
+    FAILED_USER_PASSWORD_UPDATE_SAME              (1114, "原密码与新密码一致，请重新输入"),
 
     // 板块相关操作
     FAILED_BOARD_NOT_EXISTS                       (1200, "板块不存在"),

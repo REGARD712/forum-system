@@ -205,4 +205,40 @@ public class UserController {
         // 返回成功信息
         return AppResult.success(ResultCode.SUCCESS_USER_INFO_UPDATE, user);
     }
+
+    /**
+     * 修改密码
+     * @param request HTTP请求
+     * @param oldPassword 原密码
+     * @param newPassword 新密码
+     * @param repeatNewPassword 确认新密码
+     * @return AppResult
+     */
+    @ApiOperation("修改密码")
+    @PostMapping("/modifyPwd")
+    public AppResult modifyPassword (HttpServletRequest request,
+                                     @ApiParam("原密码") @RequestParam("oldPassword") @NonNull String oldPassword,
+                                     @ApiParam("新密码") @RequestParam("newPassword") @NonNull String newPassword,
+                                     @ApiParam("确认新密码") @RequestParam("passwordRepeat") @NonNull String passwordRepeat) {
+        // 校验新密码与确认新密码是否相同
+        if (!newPassword.equals(passwordRepeat)) {
+            return AppResult.failed(ResultCode.FAILED_TWO_PWD_NOT_SAME);
+        }
+
+        // 获取当前登录用户的信息
+        HttpSession session = request.getSession(false);
+        User user = (User) session.getAttribute(AppConfig.USER_SESSION_KEY);
+
+        // 调用Service
+        userService.modifyPassword(user.getId(), oldPassword, newPassword);
+
+        // 强制当前会话重新登录
+        if (session != null) {
+            // 销毁session
+            session.invalidate();
+        }
+
+        // 返回成功信息
+        return AppResult.success(ResultCode.SUCCESS_USER_INFO_UPDATE);
+    }
 }

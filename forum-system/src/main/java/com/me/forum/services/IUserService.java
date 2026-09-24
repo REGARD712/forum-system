@@ -58,4 +58,13 @@ public interface IUserService {
      * @return void
      */
     void modifyInfo (User user);
+
+    /**
+     * 修改用户密码
+     * @param id 用户Id
+     * @param newPassword 新密码
+     * @param oldPassword 原密码
+     * @return void
+     */
+    void modifyPassword (Long id, String newPassword, String oldPassword);
 }
