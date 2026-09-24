@@ -2,6 +2,8 @@ package com.me.forum.services;
 
 import com.me.forum.model.Message;
 
+import java.util.List;
+
 /**
  * 处理站内信相关业务逻辑的Service接口
  *
@@ -23,4 +25,11 @@ public interface IMessageService {
      * @return Integer
      */
     Integer selectUnreadCount (Long receiveUserId);
+
+    /**
+     * 获取指定用户的消息列表
+     * @param receiveUserId 用户Id
+     * @return List<Message>
+     */
+    List<Message> selectByReceiveUserId (Long receiveUserId);
 }

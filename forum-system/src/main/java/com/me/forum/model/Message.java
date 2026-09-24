@@ -21,4 +21,7 @@ public class Message {
     private Date createTime;
 
     private Date updateTime;
+
+    // 关联发送消息的用户
+    private User postUser;
 }

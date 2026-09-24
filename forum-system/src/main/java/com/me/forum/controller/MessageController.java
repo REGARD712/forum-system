@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * 站内信接口
@@ -99,5 +100,24 @@ public class MessageController {
 
         // 返回结果
         return AppResult.success(count);
+    }
+
+    /**
+     * 获取用户消息列表
+     * @param request HTTP请求
+     * @return AppResult<List<Message>>
+     */
+    @ApiOperation("获取用户消息列表")
+    @GetMapping("/getAll")
+    public AppResult<List<Message>> getAll (HttpServletRequest request) {
+        // 获取用户信息
+        HttpSession session = request.getSession(false);
+        User receiveUser = (User) session.getAttribute(AppConfig.USER_SESSION_KEY);
+
+        // 调用Service查询
+        List<Message> messages = messageService.selectByReceiveUserId(receiveUser.getId());
+
+        // 返回结果
+        return AppResult.success(messages);
     }
 }

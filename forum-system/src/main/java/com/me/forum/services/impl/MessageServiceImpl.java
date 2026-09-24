@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
  * IMessageService的实现类
@@ -85,5 +86,19 @@ public class MessageServiceImpl implements IMessageService {
 
         // 调用DAO查询用户信息并返回
         return messageMapper.selectUnreadCount(receiveUserId);
+    }
+
+    @Override
+    public List<Message> selectByReceiveUserId(Long receiveUserId) {
+        // 非空校验
+        if (receiveUserId == null || receiveUserId <= 0) {
+            // 打印日志
+            log.warn("{}", ResultCode.FAILED_PARAMS_VALIDATE);
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_PARAMS_VALIDATE));
+        }
+
+        // 调用DAO查询并返回结果
+        return messageMapper.selectByReceiveUserId(receiveUserId);
     }
 }

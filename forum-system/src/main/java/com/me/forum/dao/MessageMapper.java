@@ -4,6 +4,8 @@ import com.me.forum.model.Message;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 @Mapper
 public interface MessageMapper {
     int insert(Message row);
@@ -17,4 +19,6 @@ public interface MessageMapper {
     int updateByPrimaryKey(Message row);
 
     Integer selectUnreadCount (@Param("receiveUserId") Long receiveUserId);
+
+    List<Message> selectByReceiveUserId (@Param("receiveUserId") Long receiveUserId);
 }

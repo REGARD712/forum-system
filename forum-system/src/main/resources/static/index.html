@@ -591,7 +591,27 @@
     // 成功后，调用buildMessageList() 方法构建站内信列表
     function requestMessageList() {
       $.ajax({
-
+        type: 'get',
+        url: 'message/getAll',
+        success: function (response) {
+          if (response.code == 0) {
+            // 构建消息列表
+            buildMessageList(response.data);
+          } else {
+            $.toast({
+              heading: '警告！',
+              text: response.message,
+              icon: 'warning'
+            })
+          }
+        },
+        error: function () {
+          $.toast({
+            heading: '错误！',
+            text: '访问出现问题，请联系管理员',
+            icon: 'error'
+          })
+        }
       });
     }
     requestMessageList();
