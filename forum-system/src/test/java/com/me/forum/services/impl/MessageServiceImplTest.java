@@ -25,4 +25,14 @@ class MessageServiceImplTest {
         messageService.create(message);
         System.out.println("发送站内信成功");
     }
+
+    @Test
+    void selectUnreadCount() {
+        Integer count = messageService.selectUnreadCount(1L);
+        System.out.println("count: " + count);
+        Integer count2 = messageService.selectUnreadCount(2L);
+        System.out.println("count2: " + count2);
+        Integer count3 = messageService.selectUnreadCount(1000L);
+        System.out.println("count3: " + count3);
+    }
 }

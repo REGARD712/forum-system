@@ -12,10 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -83,5 +80,24 @@ public class MessageController {
 
         // 返回成功信息
         return AppResult.success(ResultCode.SUCCESS_MESSAGE_CREATE);
+    }
+
+    /**
+     * 获取用户未读消息数
+     * @param request HTTP请求
+     * @return AppResult<Integer>
+     */
+    @ApiOperation("获取用户未读消息数")
+    @GetMapping("/getUnreadCount")
+    public AppResult<Integer> getUnreadCount (HttpServletRequest request) {
+        // 获取用户信息
+        HttpSession session = request.getSession(false);
+        User user = (User) session.getAttribute(AppConfig.USER_SESSION_KEY);
+
+        // 调用Service查询
+        Integer count = messageService.selectUnreadCount(user.getId());
+
+        // 返回结果
+        return AppResult.success(count);
     }
 }

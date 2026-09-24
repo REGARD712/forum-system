@@ -72,4 +72,18 @@ public class MessageServiceImpl implements IMessageService {
             throw new ApplicationException(AppResult.failed(ResultCode.FAILED_MESSAGE_CREATE));
         }
     }
+
+    @Override
+    public Integer selectUnreadCount(Long receiveUserId) {
+        // 非空校验
+        if (receiveUserId == null || receiveUserId <= 0) {
+            // 打印日志
+            log.warn("{}", ResultCode.FAILED_PARAMS_VALIDATE);
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_PARAMS_VALIDATE));
+        }
+
+        // 调用DAO查询用户信息并返回
+        return messageMapper.selectUnreadCount(receiveUserId);
+    }
 }

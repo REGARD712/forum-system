@@ -554,7 +554,34 @@
     // 成功后，处理小红点是否显示 #index_nva_message_badge
     function requestMessageUnreadCount() {
       $.ajax({
-
+        type: 'get',
+        url: 'message/getUnreadCount',
+        success: function (response) {
+          if (response.code == 0) {
+            // 根据返回的未读消息数决定是否显示小红点
+            let messageBadgeEl = $('#index_nva_message_badge');
+            if (response.data > 0) {
+              // 显示小红点
+              messageBadgeEl.show();
+            } else {
+              // 隐藏小红点
+              messageBadgeEl.hide();
+            }
+          } else {
+            $.toast({
+              heading: '警告！',
+              text: response.message,
+              icon: 'warning'
+            })
+          }
+        },
+        error: function () {
+          $.toast({
+            heading: '错误！',
+            text: '访问出现问题，请联系管理员',
+            icon: 'error'
+          })
+        }
       });
     }
     requestMessageUnreadCount();

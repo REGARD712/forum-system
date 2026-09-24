@@ -2,6 +2,7 @@ package com.me.forum.dao;
 
 import com.me.forum.model.Message;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface MessageMapper {
@@ -14,4 +15,6 @@ public interface MessageMapper {
     int updateByPrimaryKeySelective(Message row);
 
     int updateByPrimaryKey(Message row);
+
+    Integer selectUnreadCount (@Param("receiveUserId") Long receiveUserId);
 }

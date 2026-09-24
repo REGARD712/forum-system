@@ -16,4 +16,11 @@ public interface IMessageService {
      * @return void
      */
     void create (Message message);
+
+    /**
+     * 获取指定用户的未读站内信数量
+     * @param receiveUserId 用户Id
+     * @return Integer
+     */
+    Integer selectUnreadCount (Long receiveUserId);
 }
