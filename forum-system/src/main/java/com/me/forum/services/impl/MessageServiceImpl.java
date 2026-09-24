@@ -101,4 +101,45 @@ public class MessageServiceImpl implements IMessageService {
         // 调用DAO查询并返回结果
         return messageMapper.selectByReceiveUserId(receiveUserId);
     }
+
+    @Override
+    public Message selectById(Long id) {
+        // 非空校验
+        if (id == null || id <= 0) {
+            // 打印日志
+            log.warn("{}", ResultCode.FAILED_PARAMS_VALIDATE);
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_PARAMS_VALIDATE));
+        }
+
+        // 调用DAO查询并返回结果
+        return messageMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public void updateStateById(Long id, Byte state) {
+        // 非空校验
+        if (id == null || id <= 0
+          || state < 0 || state > 2) {
+            // 打印日志
+            log.warn("{}", ResultCode.FAILED_PARAMS_VALIDATE);
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.FAILED_PARAMS_VALIDATE));
+        }
+
+        // 构造更新对象
+        Message updateMessage = new Message();
+        updateMessage.setId(id);
+        updateMessage.setState(state);
+        updateMessage.setUpdateTime(new Date());
+
+        // 调用DAO写入数据库
+        int row = messageMapper.updateByPrimaryKeySelective(updateMessage);
+        if (row != 1) {
+            // 打印日志
+            log.warn("{}", ResultCode.ERROR_SERVICES);
+            // 抛出异常
+            throw new ApplicationException(AppResult.failed(ResultCode.ERROR_SERVICES));
+        }
+    }
 }

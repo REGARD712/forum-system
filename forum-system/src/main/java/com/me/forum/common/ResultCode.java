@@ -58,6 +58,7 @@ public enum ResultCode {
     FAILED_MESSAGE_CREATE_CONTENT_EMPTY           (1401, "站内信内容为空"),
     FAILED_MESSAGE_CREATE                         (1402, "发送站内信失败"),
     FAILED_MESSAGE_CREATE_RECEIVE_USER_BANNED     (1403, "接收者用户状态异常"),
+    FAILED_MESSAGE_NOT_EXISTS                     (1404, "站内信不存在"),
 
     // 错误
     ERROR_SERVICES                                (2000, "服务器内部错误"),

@@ -48,4 +48,17 @@ class MessageServiceImplTest {
         List<Message> messages = messageService.selectByReceiveUserId(220L);
         System.out.println(objectMapper.writeValueAsString(messages));
     }
+
+    @Test
+    @Transactional
+    void updateStateById() {
+        messageService.updateStateById(4L, (byte) 1);
+        System.out.println("更新站内信状态成功");
+    }
+
+    @Test
+    void selectById() throws JsonProcessingException {
+        Message message = messageService.selectById(1L);
+        System.out.println(objectMapper.writeValueAsString(message));
+    }
 }
