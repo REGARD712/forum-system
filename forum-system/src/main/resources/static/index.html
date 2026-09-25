@@ -691,6 +691,25 @@
           $('#btn_index_message_reply').show();
           $('#btn_index_send_message_reply').hide();
 
+          // 发送请求更新状态为已读
+          if (messageItem.state == 0 && statusDotEl.hasClass('status-dot-animated bg-red')) {
+            $.ajax({
+              type: 'post',
+              url: 'message/markRead',
+              contentType: 'application/x-www-form-urlencoded',
+              data: {id: messageItem.id},
+              success: function (response) {
+                if (response.code == 0) {
+                  // 更新页面显示效果
+                  statusDotEl.removeClass('status-dot-animated bg-red');
+                  // 修改为已读
+                  statusDescEl.html('[已读]');
+                  // 修改本地的messageItem的状态属性
+                  messageItem.state = 1;
+                }
+              }
+            });
+          }
         });
 
         // 添加到列表
