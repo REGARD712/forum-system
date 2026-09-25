@@ -697,7 +697,7 @@
               type: 'post',
               url: 'message/markRead',
               contentType: 'application/x-www-form-urlencoded',
-              data: {id: messageItem.id},
+              data: { id: messageItem.id },
               success: function (response) {
                 if (response.code == 0) {
                   // 更新页面显示效果
@@ -777,7 +777,30 @@
       // // 清空输入区
       // cleanMessageReplyForm ();
       $.ajax({
-
+        type: 'post',
+        url: 'message/reply',
+        contentType: 'application/x-www-form-urlencoded',
+        data: postData,
+        success: function (response) {
+          if (response.code == 0) {
+            requestMessageUnreadCount();
+            requestMessageList();
+            cleanMessageReplyForm();
+          } else {
+            $.toast({
+              heading: '警告！',
+              text: response.message,
+              icon: 'warning'
+            })
+          }
+        },
+        error: function () {
+          $.toast({
+            heading: '错误！',
+            text: '访问出现问题，请联系管理员',
+            icon: 'error'
+          })
+        }
       });
 
 

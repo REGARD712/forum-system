@@ -1,6 +1,7 @@
 package com.me.forum.services;
 
 import com.me.forum.model.Message;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -47,4 +48,13 @@ public interface IMessageService {
      * @return void
      */
     void updateStateById (Long id, Byte state);
+
+    /**
+     * 回复站内信
+     * @param repliedId 要被回复的站内信
+     * @param message 回复的内容
+     * @return void
+     */
+    @Transactional // 用事务管理(更新站内信的状态+将回复站内信写入表中)
+    void reply (Long repliedId, Message message);
 }

@@ -61,4 +61,15 @@ class MessageServiceImplTest {
         Message message = messageService.selectById(1L);
         System.out.println(objectMapper.writeValueAsString(message));
     }
+
+    @Test
+    @Transactional
+    void reply() {
+        Message message = new Message();
+        message.setReceiveUserId(1L);
+        message.setPostUserId(2L);
+        message.setContent("你好啊~");
+        messageService.reply(1L, message);
+        System.out.println("回复成功");
+    }
 }

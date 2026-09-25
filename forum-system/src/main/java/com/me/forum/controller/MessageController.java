@@ -156,4 +156,51 @@ public class MessageController {
         // 返回成功信息
         return AppResult.success();
     }
+
+    /**
+     * 回复站内信
+     * @param request HTTP请求
+     * @param repliedId 站内信Id
+     * @param content 回复的内容
+     * @return AppResult
+     */
+    @ApiOperation("回复站内信")
+    @PostMapping("/reply")
+    public AppResult reply (HttpServletRequest request,
+                            @ApiParam("站内信Id") @RequestParam("repliedId") @NonNull Long repliedId,
+                            @ApiParam("回复的内容") @RequestParam("content") @NonNull String content) {
+        // 校验用户状态
+        HttpSession session = request.getSession(false);
+        User user = (User) session.getAttribute(AppConfig.USER_SESSION_KEY);
+        if (user.getState() == 1) {
+            // 用户处于禁言状态,返回错误信息
+            return AppResult.failed(ResultCode.FAILED_USER_BANNED);
+        }
+
+        // 校验要回复的站内信的状态
+        Message existsMessage = messageService.selectById(repliedId);
+        // 非空校验
+        if (existsMessage == null || existsMessage.getDeleteState() == 1) {
+            // 返回错误信息
+            return AppResult.failed(ResultCode.FAILED_MESSAGE_NOT_EXISTS);
+        }
+
+        // 校验接收者用户是否为当前登录用户
+        if (user.getId().equals(existsMessage.getPostUserId())) {
+            // 不能给自己发送回复信息,返回错误信息
+            return AppResult.failed(ResultCode.FAILED_MESSAGE_CREATE_RECEIVE_USER_BANNED);
+        }
+
+        // 构造对象
+        Message message = new Message();
+        message.setPostUserId(user.getId());
+        message.setReceiveUserId(existsMessage.getPostUserId());
+        message.setContent(content);
+
+        // 调用Service
+        messageService.reply(repliedId, message);
+
+        // 返回成功信息
+        return AppResult.success();
+    }
 }
