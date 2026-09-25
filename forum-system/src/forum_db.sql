@@ -1,15 +1,12 @@
-#
-创建数据库
+#创建数据库
 drop
 database if exists forum_db;
 create
 database forum_db character set utf8mb4 collate utf8mb4_general_ci;
-#
-选择数据库
+#选择数据库
 use forum_db;
 
-#
-创建表
+#创建表
 # 用户表
 drop table if exists t_user;
 create table t_user
@@ -32,8 +29,7 @@ create table t_user
     updateTime   datetime    not null comment '更新时间，精确到秒'
 );
 
-#
-版块表
+#版块表
 drop table if exists t_board;
 create table t_board
 (
@@ -47,8 +43,7 @@ create table t_board
     updateTime   datetime    not null comment '更新时间，精确到秒'
 );
 
-#
-帖子表
+#帖子表
 drop table if exists t_article;
 create table t_article
 (
@@ -67,8 +62,7 @@ create table t_article
 );
 
 
-#
-帖子回复表
+#帖子回复表
 drop table if exists t_article_reply;
 create table t_article_reply
 (
@@ -86,8 +80,7 @@ create table t_article_reply
 
 );
 
-#
-站内信表
+#站内信表
 drop table if exists t_message;
 create table t_message
 (
