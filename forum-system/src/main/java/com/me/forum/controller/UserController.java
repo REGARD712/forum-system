@@ -211,7 +211,7 @@ public class UserController {
      * @param request HTTP请求
      * @param oldPassword 原密码
      * @param newPassword 新密码
-     * @param repeatNewPassword 确认新密码
+     * @param passwordRepeat 确认新密码
      * @return AppResult
      */
     @ApiOperation("修改密码")
