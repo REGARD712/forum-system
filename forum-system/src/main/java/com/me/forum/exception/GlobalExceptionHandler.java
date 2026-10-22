@@ -27,8 +27,8 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler(ApplicationException.class)
     public AppResult applicationExceptionHandler (ApplicationException e) {
-        // 打印异常信息
-        e.printStackTrace(); // TODO 上生产之前要删除
+//        // 打印异常信息
+//        e.printStackTrace(); // TODO 上生产之前要删除
         // 打印日志
         log.error(e.getMessage());
         if (e.getErrorResult() != null) {
@@ -53,8 +53,8 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler(Exception.class)
     public AppResult exceptionHandler (Exception e) {
-        // 打印异常信息
-        e.printStackTrace(); // TODO 上生产之前要删除
+//        // 打印异常信息
+//        e.printStackTrace(); // TODO 上生产之前要删除
         // 打印日志
         log.error(e.getMessage());
         // 非空校验
